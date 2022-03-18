@@ -1,21 +1,198 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Builderment Calculator</title>
+        <!-- Load favicon-->
+        <link rel="icon" type="image/x-icon" href="/image/gear-icon.png">
+        <!-- Load external CSS styles -->
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+<style>
+    input[type=text], select {
+        width: 100%;
+        padding: 8px 8px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    button {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type=button]:hover {
+        background-color: #45a049;
+    }
+
+    .form {
+        width: 50%;
+        background-color: #f2f2f2;
+        padding: 20px;
+        content: "";
+        clear: both;
+        display: table;
+    }
+    table {
+        border:1px solid black; 
+        padding: 0px;
+        background-color: #f2f2f2;
+        border-collapse: collapse;
+        border-radius: 4px;
+    }
+    th, td {
+  padding: 5px;
+  }
+</style>
+
 <body>
 
-<h2>Text field</h2>
-<p>The <strong>input type="text"</strong> defines a one-line text input field:</p>
 
-<form action="/action_page.php">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname"><br><br>
-  <input type="submit" value="Submit">
-</form>
+    <h1> <img src="/image/gear-icon.png" style="max-width:10%;height:auto;float: right" alt="gear">
+    Builderment Calculator </h1>
 
-<p>Note that the form itself is not visible.</p>
-<p>Also note that the default width of a text field is 20 characters.</p>
+    <table style="width:50%">
+        <tr>
+            <th> <p>Desired Material</label> </th>
+            <th> <p>Desired Rate</label> </th>
+        </tr>
+        <tr>
+            <td>
+            <select id="material" name="material">
+                <option value="0">Wood Log</option>
+                <option value="1">Copper Ore</option>
+                <option value="2">Iron Ore</option>
+                <option value="3">Stone</option>
+                <option value="4">Coal </option>
+                <option value="5">Wood Plank</option>
+                <option value="6">Wood Frame</option>
+                <option value="8">Copper Ingot</option>
+                <option value="9">Copper Wire</option>
+                <option value="10">Iron Ingot</option>
+                <option value="11">Iron Gear</option>
+                <option value="12">Sand</option>
+                <option value="13">Silicon</option>
+                <option value="14">Glass</option>
+                <option value="15">Tungsten Ore</option>
+                <option value="16">Graphite</option>
+                <option value="17">Tungsten Carbide</option>
+                <option value="18">Coupler</option>
+                <option value="19">Condenser Lens</option>
+                <option value="20">Heat Sink</option>
+                <option value="21">Iron Plating</option>
+                <option value="22">Electromagner</option>
+                <option value="23">Metal Frame</option>
+            </select>
+            </td>
+            <td> <input type="text" id="rate" name="rate" placeholder="Rate..."> </td>
+        </tr>
+    </table>
+    </br>
+    <h2> Buidling Levels</h2>
+    <table style="width:100%">
+        <tr>
+            <th style="width:23%"></th>
+            <th style="width:10.3333%"></th>
+            <th style="width:23%"></th>
+            <th style="width:10.3333%"></th>
+            <th style="width:23%"></th>
+            <th style="width:10.3333%"></th>
+
+        <tr>
+            <td><p>Extractor<p> </td>
+            <td>
+            <select id="extractor" name="extractor">
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+                <option value="4">5</option>
+            </select>
+            </td>
+            <td> <p>Workshop</p> </td>
+            <td>
+            <select id="workshop" name="workshop">
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+            </select>   
+            </td>
+            <td> <p>Furnace</p> </td>
+            <td>
+            <select id="furnace" name="furnace">
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+            </select>   
+            </td>
+        </tr>        
+        <tr>
+            <td> <p>Machine Shop</p> </td>
+            <td>
+            <select id="machine" name="machine">
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+            </select>   
+            </td>
+            <td><p>Industrial Factory</p></td>
+            <td>
+                <select id="industrial" name="industrial">
+                <option value="0">1</option>
+                <option value="1">2</option>
+            <td> <p>Forge</p> </td>
+            <td>
+            <select id="forge" name="forge">
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+            </select>   
+            </td>
+        </tr>
+        <tr>
+            <td><p>Manufacturer</p></td>
+            <td>
+                <select id="manufacturer" name="manufacturer">
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+                </select> 
+            </td>
+            <td><p>Earth Teleporter</p></td>
+            <td>
+                <select id="releporter" name="teleporter">
+                    <option value="0">1</option>
+                </select>
+            </td>
+        </tr>
+</table>
+
+
+<!-- Load external JavaScript -->
+<script src="scripts.js"></script>
+
+<button onclick="DrawMatBox('iron', 12, 'extractor', 1, 50, 50 )"; style="width:50%">CALCULATE</button>
+
+</br>
+
+<svg width="100%" height="400"> </svg>
+
 
 </body>
 </html>
-
