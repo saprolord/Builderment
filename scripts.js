@@ -33,8 +33,8 @@ function factorycalc() {
   const steel_rod = new MatDef("Steel Rod", [1, 15], [steel], [3], 25);
   const rotor = new MatDef("Rotor", [3, 10], [steel_rod, iron_plate], [1, 2], 26);
   const concrete = new MatDef("Concrete", [5, 7.5], [sand, steel_rod], [10, 1], 27);
-  const battery = new MatDef("Battery", [1, 2.5], [emagnet, graphite], [8, 8], 28);
-  const motor = new MatDef("Electric Motor", [5, 3], [battery, iron_gear, rotor], [1, 4, 2], 29);
+  const battery = new MatDef("Battery", [3, 2.5], [emagnet, graphite], [8, 8], 28);
+  const motor = new MatDef("Electric Motor", [4, 3], [battery, iron_gear, rotor], [1, 4, 2], 29);
   const circuit = new MatDef("Logic Circuit", [3, 10], [copper_wire, silicon], [3, 2], 30);
   const carbfibre = new MatDef("Carbon Fibre", [1, 7.5], [graphite], [4], 31);
   const nanowire = new MatDef("Nano Wire", [3, 5], [carbfibre, glass], [2, 4], 32);
