@@ -42,9 +42,9 @@ function factorycalc() {
   const ind_frame = new MatDef("Industrial Frame", [4, 3], [concrete, metal_frame, carbide], [6, 2, 8], 34);
   const gyroscope = new MatDef("Gyroscope", [3, 5], [copper_wire, rotor], [12, 2], 35);
   const stabilizer = new MatDef("Stabilizer", [4, 2.5], [computer, motor, gyroscope], [1, 1, 2], 36);
-  const mag_field = new MatDef("Mag. Field Generator", [7, 1.5], [stabilizer, ind_frame, emagnet, nanowire], [1, 1, 10, 10], 37);
+  const mag_field = new MatDef("Mag. Field Generator", [6, 1.5], [stabilizer, ind_frame, emagnet, nanowire], [1, 1, 10, 10], 37);
   const quantum = new MatDef("Quantum Entangler", [3, 1], [mag_field, stabilizer], [1, 2], 38);
-  const microscope = new MatDef("Electron Microscope", [4, 2.5], [nanowire, emagnet, lens, metal_frame], [2, 8, 4, 2], 39);
+  const microscope = new MatDef("Electron Microscope", [6, 2.5], [nanowire, emagnet, lens, metal_frame], [2, 8, 4, 2], 39);
   const turbocharg = new MatDef("Turbocharger", [6, 4], [iron_gear, circuit, nanowire, coupler], [8, 4, 2, 4], 40);
   const supercomp = new MatDef("Super Computer", [6, 2], [computer, heat_sink, turbocharg, coupler], [2, 8, 1, 8], 41);
   const atomic = new MatDef("Atomic Locator", [6, 2], [supercomp, microscope, concrete, copper_wire], [2, 2, 24, 50], 42);
