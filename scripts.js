@@ -1,4 +1,4 @@
-function factorycalc() {
+function factorycalc(reverse) {
 
   'This is the main function to call out to create the recipe tree as selected in the "desired material" field at the rate defined in "desired rate"'
   'This body sets up all the first level recipes as a MatDef class (see constructor further down)'
@@ -85,9 +85,14 @@ function factorycalc() {
 'array of the effective boost for each level (1 to 5)'
   var boostFactory = [1, 1.5, 2, 3, 4];
 
+  'If reverse calc is required'
+  if (reverse==true){
+    rate=1;
+  }
+
 'Assign new rates in relation to the "tier" or "Level" assigned to each factories'
   for (i = 0; i < materialdata.length; i++) {
-    materialdata[i].factory[1] = materialdata[i].factory[1] * boostFactory[levelFactory[materialdata[i].factory[0]]];
+    materialdata[i].factory[1] = materialdata[i].factory[1] * boostFactory  [levelFactory[materialdata[i].factory[0]]];
   }
 
 'Get the main div element where the tree will appear and clear it'
@@ -99,25 +104,61 @@ function factorycalc() {
 'Launch main function to calculate the required materials'
   calculate(materialdata[index], rate,'tree10000',10000);
 
-'update and show the div element with the required material'
-  materialOutput();
-  document.getElementById("TreeTop").style.display = "flex";
-  document.getElementById("box3").style.display = "flex";
+'If reverse calc required, recalculate the output based on the limiting extractors'
+  if (reverse==true){
+ 
+    var extractorQty = [document.getElementById('wood_extractor_qty').value,
+    document.getElementById('copper_extractor_qty').value,
+    document.getElementById('iron_extractor_qty').value,
+    document.getElementById('stone_extractor_qty').value,
+    document.getElementById('wolf_extractor_qty').value,
+    document.getElementById('coal_extractor_qty').value];
 
-'create the tier buttons'
-  createTierButton();
+    'create an array of the ratio that could be produced based on each resource available (set Infinity if resrouce is not required)'
+    var extractor_ratio=[0,0,0,0,0,0];
+    for (var i = 0; i < (extractor_ratio.length); i++) {
+      if (materialtotal[i]==0){
+        extractor_ratio[i]=Infinity;
+      } else{
+        extractor_ratio[i] = (extractorQty[i] * materialdata[i].factory[1]) / materialtotal[i];
+      }
+    }
+    'find the limiting resource rate'
+    rate = Math.min.apply(null, extractor_ratio)
+    'set the new rate on the lmiting resource'
+    document.getElementById('rate').value = rate;
+
+    'display the restricting resource'
+    'finc the restricting resource'
+    var j = 0;
+    for (var i = 1; i < extractor_ratio.length; i++) {
+      if (extractor_ratio[i] < extractor_ratio[i - 1]) { j = i }
+    }
 
 
-'adjust the div boxes if the screen is narrow'
-  if (window.matchMedia("(max-width: 800px)").matches) {
-    document.getElementById("box3").style.width = "100%";
-    document.getElementById("levelfact").style.width = "100%";
-    "document.getElementById('box3').scrollIntoView()"
-  } else {
-    document.getElementById("box3").style.width = "30%";
-    document.getElementById("levelfact").style.width = "30%";
+    alert("You are limited by the amount of " + materialdata[j].name + " extractors");
+
+    'recalculate with the new rate'
+    factorycalc(false);
+
   }
-  'END'
+  
+  else{
+  'if reverse calc not required, display the result'  
+  'update and show the div element with the required material'
+    materialOutput();
+    document.getElementById("TreeTop").style.display = "flex";
+    document.getElementById("box3").style.display = "flex";
+
+  'create the tier buttons'
+    createTierButton();
+
+  'adjust the div boxes if the screen is narrow'
+    if (window.matchMedia("(max-width: 800px)").matches) {
+      "document.getElementById('box3').scrollIntoView()"
+    }
+    'END'
+  }
 }
 
 function zero(material) {
@@ -125,6 +166,45 @@ function zero(material) {
   for (var i = 0; i < (material.length); i++) {
     material[i] = 0;
   }
+}
+
+function reversefactorycalc(){
+  //Function to calculate how much of the desired material can be produced
+  //based on the number of extractors entered
+  
+  var extractorQty = [document.getElementById('wood_extractor_qty').value,
+  document.getElementById('copper_extractor_qty').value,
+  document.getElementById('iron_extractor_qty').value,
+  document.getElementById('stone_extractor_qty').value,
+  document.getElementById('wolf_extractor_qty').value,
+  document.getElementById('coal_extractor_qty').value];
+
+  var extractor_ratio = [extractorQty[0] / materialtotal[0],
+  extractorQty[1] / materialtotal[1],
+  extractorQty[2] / materialtotal[2],
+  extractorQty[3] / materialtotal[3],
+  extractorQty[4] / materialtotal[4],
+  extractorQty[5] / materialtotal[5]];
+
+  'set the new rate on the lmiting resource'
+  var rate = Math.min.apply(null, extractor_ratio);
+
+  document.getElementById('rate').value=rate;
+
+
+  'display the restricting resource'
+  'finc the restricting resource'
+  var j = 0;
+  for (var i = 1; i++; i < length(extractor_ratio)) {
+    if (extractor_ratio[i] < extractor_ratio[i - 1]) { j = i }
+  }
+
+  alert("You are limited by the amount of " && materialdata[j].name && " extractors");
+
+  'recalculate'
+  factorycalc(false);
+
+  
 }
 
 function calculate(material, rate,divParentId,boxId) {
@@ -137,7 +217,7 @@ function calculate(material, rate,divParentId,boxId) {
 
   if (material.recipe == 0) {
     //raw material with no recipe 
-    createMatDetail(material.name, rate, factoryname(material.factory[0]), Math.ceil(rate / material.factory[1]),divParentId,'matDet'+boxId,material.ID)
+    createMatDetail(material.name, rate, factoryname(material.factory[0]), Math.ceil((rate / material.factory[1])*100)/100,divParentId,'matDet'+boxId,material.ID)
     //add the material to the total required
     materialtotal[material.ID] = materialtotal[material.ID] + rate;
   } else {
@@ -510,5 +590,63 @@ function findIcon(id){
   if (id == 46) { return "https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Particle_Glue.png" };
   if (id == 47) { return "https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Matter_Duplicator.png" };
   if (id == 48) { return "https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Earth_Token.png" };
+
+}
+
+function openTab(tabName) {
+  //function to switch between tabs
+  // shows "mainbox" associated with "tabName" (through the same ID number)
+  // hide all other "mainbox"
+  var i;
+  var ID = tabName;
+  ID=tabName.slice(-1);
+  var tabList = document.getElementsByClassName("mainbox");
+  for (i = 0; i < tabList.length; i++) {
+    tabList[i].style.display = "none";
+  }
+  var tabs = document.getElementsByClassName("tab");
+  for(i=0;i<tabs.length;i++){
+    tabs[i].style.background = "#748f7e";
+    tabs[i].style.transform ="translatey(0px)";
+  }
+  document.getElementById("tab" + ID).style.background = "#10a049";
+  document.getElementById("tab" + ID).style.transform = "translatey(+1px)";
+  document.getElementById(tabName).style.display = "flex";
+}
+
+function openTab1() {
+
+  //specifically show all blcoks relevant to Tab1 (as it is share with tab2 (probably time to learn Jquery!))
+  document.getElementById("tab1").style.background = "#10a049";
+  document.getElementById("tab1").style.transform = "translatey(0px)";
+  document.getElementById("inputRate").style.display = "flex";
+  document.getElementById("calculate1").style.display = "inline";
+
+  document.getElementById("tab2").style.background = "#748f7e";
+  document.getElementById("tab2").style.transform = "translatey(+1px)";
+  document.getElementById("extractor_qty").style.display = "none";
+  document.getElementById("calculate2").style.display = "none";
+
+  document.getElementById("box3").style.display = "none";
+  document.getElementById("buttonBox").style.display = "none";
+  document.getElementById("TreeTop").style.display = "none";
+}
+
+function openTab2() {
+  //specifically show all blooks relevant to Tabw (as it is share with tab1 (probably time to learn Jquery!))
+  document.getElementById("tab1").style.background = "#748f7e";
+  document.getElementById("tab1").style.transform = "translatey(+1px)";
+  document.getElementById("inputRate").style.display = "none";
+  document.getElementById("calculate1").style.display = "none";
+
+  document.getElementById("tab2").style.background = "#10a049";
+  document.getElementById("tab2").style.transform = "translatey(0px)";
+  document.getElementById("extractor_qty").style.display = "flex";
+  document.getElementById("calculate2").style.display = "inline";
+
+
+  document.getElementById("box3").style.display = "none";
+  document.getElementById("buttonBox").style.display = "none";
+  document.getElementById("TreeTop").style.display = "none";
 
 }
