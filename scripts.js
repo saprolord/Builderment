@@ -132,7 +132,7 @@ function factorycalc(reverse) {
     'finc the restricting resource'
     var j = 0;
     for (var i = 1; i < extractor_ratio.length; i++) {
-      if (extractor_ratio[i] < extractor_ratio[i - 1]) { j = i }
+      if (extractor_ratio[i] < extractor_ratio[j]) { j = i }
     }
 
 
