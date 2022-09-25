@@ -133,10 +133,12 @@ function factorycalc(reverse) {
     var j = 0;
     for (var i = 1; i < extractor_ratio.length; i++) {
       if (extractor_ratio[i] < extractor_ratio[j]) { j = i }
+    
     }
 
+    document.getElementById("limit_resource").style.display="flex";
+    document.getElementById("limit_resource").innerHTML=("You are limited by the amount of " + materialdata[j].name + " extractors");
 
-    alert("You are limited by the amount of " + materialdata[j].name + " extractors");
 
     'recalculate with the new rate'
     factorycalc(false);
@@ -630,6 +632,7 @@ function openTab1() {
   document.getElementById("box3").style.display = "none";
   document.getElementById("buttonBox").style.display = "none";
   document.getElementById("TreeTop").style.display = "none";
+  document.getElementById("limit_resource").style.display = "none";
 }
 
 function openTab2() {
@@ -644,9 +647,9 @@ function openTab2() {
   document.getElementById("extractor_qty").style.display = "flex";
   document.getElementById("calculate2").style.display = "inline";
 
-
   document.getElementById("box3").style.display = "none";
   document.getElementById("buttonBox").style.display = "none";
   document.getElementById("TreeTop").style.display = "none";
+  document.getElementById("limit_resource").style.display = "none";
 
 }
