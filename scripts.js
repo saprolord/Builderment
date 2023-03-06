@@ -3,7 +3,7 @@ function factorycalc(reverse) {
   'This is the main function to call out to create the recipe tree as selected in the "desired material" field at the rate defined in "desired rate"'
   'This body sets up all the first level recipes as a MatDef class (see constructor further down)'
   'MatDef class format: (name, factory:[Factory ID, production rate],recipe:[material1,material2,...],quantity: [material1 requirement, material2 requirement, ...], material ID)'
-  'FactoryIDs: Extractor=0, Workshop=1, Furnace=2, Machine Shop=3, Industrial=4, Forge=5, Manufacturer=6, Earth Teleporter=7'
+  'FactoryIDs: Extractor=0, Workshop=1, Furnace=2, Machine Shop=3, Industrial=4, Forge=5, Manufacturer=6, Earth Teleporter=7, Uranium Extractor=8, Coal Power Plant = 9, Nuclear Power Plant =10'
 
   const wood_log = new MatDef("Wood Log", [0, 7.5], 0, [1], 0);
   const copper = new MatDef("Copper", [0, 7.5], 0, [1], 1);
@@ -54,15 +54,19 @@ function factorycalc(reverse) {
   const particle = new MatDef("Particle Glue", [1, 20], [compressor], [0.1], 46);
   const duplicator = new MatDef("Matter Duplicator", [6, 2 / 3], [atomic, quantum, energy_cube, particle], [4, 2, 5, 100], 47);
   const earth_token = new MatDef("Earth Token", [7, 60 / 42], [duplicator], [1], 48);
+  const uranium = new MatDef("Uranium Ore", [8, 10], 0, [1], 49);
+  const enriched_ur = new MatDef("Enriched Uranium",[5,1],[uranium],[30],50)
+  const empty_fuel = new MatDef("Empty Fuel Cell",[3,4],[carbide,glass],[3,5],51)
+  const nuclear_fuel = new MatDef("Nuclear Fuel Cell",[4,2],[empty_fuel,steel_rod,enriched_ur],[1,1,1],52)
 
 
 '________________________'
 'GLOBAL VARIABLES'
 'Material data matrix'
-  materialdata = [wood_log, copper, iron, stone, wolfram, coal, wood_plank, wood_frame, copper_ingot, copper_wire, iron_ingot, iron_gear, sand, silicon, glass, tungsten, graphite, carbide, coupler, lens, heat_sink, iron_plate, emagnet, metal_frame, steel, steel_rod, rotor, concrete, battery, motor, circuit, carbfibre, nanowire, computer, ind_frame, gyroscope, stabilizer, mag_field, quantum, microscope, turbocharg, supercomp, atomic, energy_cube, tank, compressor, particle, duplicator, earth_token,];
+  materialdata = [wood_log, copper, iron, stone, wolfram, coal, wood_plank, wood_frame, copper_ingot, copper_wire, iron_ingot, iron_gear, sand, silicon, glass, tungsten, graphite, carbide, coupler, lens, heat_sink, iron_plate, emagnet, metal_frame, steel, steel_rod, rotor, concrete, battery, motor, circuit, carbfibre, nanowire, computer, ind_frame, gyroscope, stabilizer, mag_field, quantum, microscope, turbocharg, supercomp, atomic, energy_cube, tank, compressor, particle, duplicator, earth_token,uranium,enriched_ur,empty_fuel,nuclear_fuel];
 'Total required for each material array initialisation'
   materialtotal = [0];
-  materialtotal.length = 49;
+  materialtotal.length = materialdata.length;
   zero(materialtotal);
 '_________________________'
 'END OF GLOBAL VARIABLE'
@@ -81,7 +85,7 @@ function factorycalc(reverse) {
   var levelG = document.getElementById('manufacturer').value;
   var levelH = document.getElementById('teleporter').value;
 'make an array with all the factory levels selected'
-  var levelFactory = [levelA, levelB, levelC, levelD, levelE, levelF, levelG, levelH];
+  var levelFactory = [levelA, levelB, levelC, levelD, levelE, levelF, levelG, levelH,1,1,1];
 'array of the effective boost for each level (1 to 5)'
   var boostFactory = [1, 1.5, 2, 3, 4];
 
@@ -114,7 +118,7 @@ function factorycalc(reverse) {
     document.getElementById('wolf_extractor_qty').value,
     document.getElementById('coal_extractor_qty').value];
 
-    'create an array of the ratio that could be produced based on each resource available (set Infinity if resrouce is not required)'
+    'create an array of the ratio that could be produced based on each resource available (set Infinity if resource is not required)'
     var extractor_ratio=[0,0,0,0,0,0];
     for (var i = 0; i < (extractor_ratio.length); i++) {
       if (materialtotal[i]==0){
@@ -129,7 +133,7 @@ function factorycalc(reverse) {
     document.getElementById('rate').value = rate;
 
     'display the restricting resource'
-    'finc the restricting resource'
+    'find the restricting resource'
     var j = 0;
     for (var i = 1; i < extractor_ratio.length; i++) {
       if (extractor_ratio[i] < extractor_ratio[j]) { j = i }
@@ -273,7 +277,7 @@ function createTreeLevel(divParentId, boxId) {
 
 function factoryname(id) {
   'Retrun the string of the name of the factory associated with the index "id" '
-  'FactoryIDs: Extractor=0, Workshop=1, Furnace=2, Machine Shop=3, Industrial=4, Forge=5, Manufacturer=6, Earth Teleporter=7'
+  'FactoryIDs: Extractor=0, Workshop=1, Furnace=2, Machine Shop=3, Industrial=4, Forge=5, Manufacturer=6, Earth Teleporter=7, Uranium Extractor=8, Coal Power Plant = 9, Nuclear Power Plant =10'
   if (id == 0) { return "Extractor" };
   if (id == 1) { return "Workshop" };
   if (id == 2) { return "Furnace" };
@@ -282,6 +286,9 @@ function factoryname(id) {
   if (id == 5) { return "Forge" };
   if (id == 6) { return "Manufacturer" };
   if (id == 7) { return "Earth Teleporter" };
+  if (id == 8) { return "Uranium Extractor" };
+  if (id == 9) { return "Coal Power Plant" };
+  if (id == 10) { return "Nuclear Power Plant" };
 }
 
 function erase(divId) {
@@ -591,8 +598,11 @@ function findIcon(id){
   if (id == 45) { return "https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Matter_Compressor.png" };
   if (id == 46) { return "https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Particle_Glue.png" };
   if (id == 47) { return "https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Matter_Duplicator.png" };
-  if (id == 48) { return "https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Earth_Token.png" };
-
+  if (id == 48) { return "https://raw.githubusercontent.com/saprolord/Builderment/main/image/Earth_Token.png" };
+  if (id == 49) { return "https://raw.githubusercontent.com/saprolord/Builderment/main/image/Uranium.png" };
+  if (id == 50) { return "https://raw.githubusercontent.com/saprolord/Builderment/main/image/Enriched_Uranium.png" };
+  if (id == 51) { return "https://raw.githubusercontent.com/saprolord/Builderment/main/image/Empty_Fuel_Cell.png" };
+  if (id == 52) { return "https://raw.githubusercontent.com/saprolord/Builderment/main/image/Nuclear_Fuel_Cell.png" };    
 }
 
 function openTab(tabName) {
