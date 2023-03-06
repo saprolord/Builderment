@@ -4,7 +4,8 @@ function factorycalc(reverse) {
   'This body sets up all the first level recipes as a MatDef class (see constructor further down)'
   'MatDef class format: (name, factory:[Factory ID, production rate],recipe:[material1,material2,...],quantity: [material1 requirement, material2 requirement, ...], material ID)'
   'FactoryIDs: Extractor=0, Workshop=1, Furnace=2, Machine Shop=3, Industrial=4, Forge=5, Manufacturer=6, Earth Teleporter=7, Uranium Extractor=8, Coal Power Plant = 9, Nuclear Power Plant =10'
-
+  'Why is this not working?'
+  
   const wood_log = new MatDef("Wood Log", [0, 7.5], 0, [1], 0);
   const copper = new MatDef("Copper", [0, 7.5], 0, [1], 1);
   const iron = new MatDef("Iron", [0, 7.5], 0, [1], 2);
