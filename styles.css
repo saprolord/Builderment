@@ -26,10 +26,33 @@ button:hover {
   font-weight: bold;
 }
 
-.buttonBox {
+#tierButtonBox {
   display: flex;
   width: 100%;
   justify-content: center;
+}
+
+.tierButton {
+  display: flex;
+  background-color: #10a049;
+  color: white;
+  height: 30px;
+  width: 40px;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 0px;
+}
+
+#tierButtonBox .tierButton:first-child {
+  border-radius: 8px 0px 0px 8px;
+}
+
+#tierButtonBox .tierButton:last-child {
+  border-radius: 0px 8px 8px 0px;
 }
 
 .buttonStart {

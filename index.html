@@ -1,562 +1,1044 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Builderment Calculator</title>
+    <!-- Load favicon-->
+    <link rel="icon" type="image/x-icon" href="/image/gear2.png" />
+    <!-- Load external CSS styles -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-	<title>Builderment Calculator</title>
-	<!-- Load favicon-->
-	<link rel="icon" type="image/x-icon" href="/image/gear2.png">
-	<!-- Load external CSS styles -->
-	<link rel="stylesheet" href="styles.css">
-</head>
+  <style>
+    body {
+      background-image: url("https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Builderment_Bck2b.png");
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+  </style>
 
-<style>
-body {
-background-image: url("https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Builderment_Bck2b.png");
-background-repeat: no-repeat;
-background-size: 100% ;
-}
-</style>
+  <body>
+    <!-- Load external JavaScript -->
 
-<body>
-<!-- Load external JavaScript -->
-
-
-<div style="display:flex; width:100%; justify-content:center; align-items: center ">
-	<img src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Builderment_Ico.jpg" class="headIco" alt="ico">
-	<div style="text-align: center; margin-left: 0.5em; margin-right: 0.5em; font-family: Verdana; font-size: 1.1em; -webkit-text-stroke-width: 0.5px; -webkit-text-stroke-color: white; ">
-			<b>BUILDERMENT CALCULATOR </b>
-	</div>
-	<img src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Builderment_Ico.jpg" class="headIco" alt="ico">
-</div>
-
-<div style="margin-top:12px; display:flex">
-	<div class="tab" id="tab1" onclick="openTab1()" style="background-color:#10a049; transform: translatey(1px)">How much do I need to produce... </div>
-	<div class="tab" id="tab2" onclick="openTab2()">How much can I produce...</div>
-</div>
-
-
-<div class="mainbox" id="mainbox1">
-  <div class="leftContainer" >
-    <div class="tabBox" id="inputBox1" style="width:100%">
-		<div class="matinput" id="inputRate" style=" align-items: center; width: 100%;">
-			<div style="text-align:center; font-weight:bold;"> Desired Rate </div>
-			<div style="text-align:center">
-				<input type="text" id="rate" name="rate" placeholder="Rate..." value=1 style="width:25%">
-			</div>
-		</div>
-		<div class="matinput" style="width: 100%">
-      <div style="text-align:center; padding: 5px; font-weight:bold;"> Desired Material </div>
-      <div style="text-align:center;">
-        <select id="material" name="material" >
-					<option value="42">Atomic Locator</option>
-					<option value="28">Battery</option>
-					<option value="31">Carbon Fibre</option>
-					<option value="5">Coal </option>
-					<option value="33">Computer</option>
-					<option value="27">Concrete</option>
-					<option value="19">Condenser Lens</option>
-					<option value="8">Copper Ingot</option>
-					<option value="1">Copper Ore</option>
-					<option value="9">Copper Wire</option>
-					<option value="18">Coupler</option>
-					<option value="48">Earth Token</option>
-					<option value="29">Electric Motor</option>
-					<option value="22">Electromagnet</option>
-					<option value="39">Electron Microscope</option>
-					<option value="51">Empty Fuel Cell</option>
-					<option value="43">Energy Cube</option>
-					<option value="50">Enriched Uranium</option>
-					<option value="14">Glass</option>
-					<option value="16">Graphite</option>
-					<option value="35">Gyroscope</option>
-					<option value="20">Heat Sink</option>
-					<option value="34">Industrial Frame</option>
-					<option value="11">Iron Gear</option>
-					<option value="10">Iron Ingot</option>
-					<option value="2">Iron Ore</option>
-					<option value="21">Iron Plating</option>
-					<option value="30">Logic Circuit</option>
-					<option value="37">Magnetic Field Generator</option>
-					<option value="45">Matter Compressor</option>
-					<option value="47">Matter Duplicator</option>
-					<option value="23">Metal Frame</option>
-					<option value="32">Nano Wire</option>
-					<option value="52">Nuclear Fuel Cell</option>
-					<option value="46">Particle Glue</option>
-					<option value="38">Quantum Entangler</option>
-					<option value="26">Rotor</option>
-					<option value="12">Sand</option>
-					<option value="24">Steel</option>
-					<option value="25">Steel Rod</option>
-					<option value="13">Silicon</option>
-					<option value="3">Stone</option>
-					<option value="17">Tungsten Carbide</option>
-					<option value="15">Tungsten Ore</option>
-					<option value="36">Stabilizer</option>
-					<option value="41">Super Computer</option>
-					<option value="44">Tank</option>
-					<option value="40">Turbocharger</option>
-					<option value="49">Uranium</option>
-					<option value="4">Wolframite</option>
-					<option value="7">Wood Frame</option>
-					<option value="0">Wood Log</option>
-					<option value="6">Wood Plank</option>
-				</select>
-			</div>
+    <div
+      style="
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <img
+        src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Builderment_Ico.jpg"
+        class="headIco"
+        alt="ico"
+      />
+      <div
+        style="
+          text-align: center;
+          margin-left: 0.5em;
+          margin-right: 0.5em;
+          font-family: Verdana;
+          font-size: 1.1em;
+          -webkit-text-stroke-width: 0.5px;
+          -webkit-text-stroke-color: white;
+        "
+      >
+        <b>BUILDERMENT CALCULATOR </b>
+      </div>
+      <img
+        src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Builderment_Ico.jpg"
+        class="headIco"
+        alt="ico"
+      />
     </div>
-  </div>
 
-	<div class="box4" id="extractor_qty" style="display:none">
-		<div style="font-weight:bold;"> Number of Extractors </div>
-		<div class="subbox2">
-			<div class="levelfact">
-				<div class="tablecell"> Wood: </div>
-				<input type="text" id="wood_extractor_qty" name="wood" size="3" maxlength="3" value=0 style="max-width: 80px">
-	      </div>
-				<div class="levelfact">
-					<div class="tablecell"> Copper: </div>
-					<input type="text" id="copper_extractor_qty" name="wood" size="3" maxlength="3" value=0 style="max-width: 80px">
-	      </div>
-					<div class="levelfact">
-						<div class="tablecell"> Iron: </div>
-						<input type="text" id="iron_extractor_qty" name="wood" size="3" maxlength="3" value=0 style="max-width: 80px">
-	      </div>
-						<div class="levelfact">
-							<div class="tablecell"> Stone: </div>
-							<input type="text" id="stone_extractor_qty" name="wood" size="3" maxlength="3" value=0 style="max-width: 80px">
-			  </div>
-							<div class="levelfact">
-								<div class="tablecell"> Wolfram.: </div>
-								<input type="text" id="wolf_extractor_qty" name="wood" size="3" maxlength="3" value=0 style="max-width: 80px">
-			  </div>
-								<div class="levelfact">
-									<div class="tablecell"> Coal: </div>
-									<input type="text" id="coal_extractor_qty" name="wood" size="3" maxlength="3" value=0 style="max-width: 80px">
-	      </div>
+    <div style="margin-top: 12px; display: flex">
+      <div
+        class="tab"
+        id="tab1"
+        onclick="openTab1()"
+        style="background-color: #10a049; transform: translatey(1px)"
+      >
+        How much do I need to produce...
+      </div>
+      <div class="tab" id="tab2" onclick="openTab2()">
+        How much can I produce...
       </div>
     </div>
-  </div>
 
-<div class="box2" id="levelfact">
-	<div style="font-weight:bold;"> Building Levels</div>
-	<div class="levelfact" style="justify-content: center" id="max_all_level">
-		<button style="padding: 8px 10px" onclick="maxFactory()" > Max All </button>
-	</div>
-	<div class="subbox2">
-		<div class="levelfact" id="extractor_box">
-			<div style="width: 120px ; text-align: right"> Extractor :</div>
-			<div style="width: 30px">
-				<select id="extractor" name="extractor" class="factoryLevelSelect" data-factory-id="0">
-            <option value="0">1</option>
-            <option value="1">2</option>
-            <option value="2">3</option>
-            <option value="3">4</option>
-            <option value="4">5</option>
-        </select>
-			</div>
-		</div>
-		<div class="levelfact" id="workshop_box">
-			<div style="width: 125px; text-align:right"> Workshop :</div>
-			<div style="width: 30px">
-				<select id="workshop" name="workshop" class="factoryLevelSelect" data-factory-id="1">
-	            <option value="0">1</option>
-	            <option value="1">2</option>
-	            <option value="2">3</option>
-	            <option value="3">4</option>
-	        </select>
-			</div>
-		</div>
-		<div class="levelfact" id="furnace_box">
-			<div style="width: 125px; text-align:right"> Furnace :</div>
-			<div style="width: 30px">
-				<select id="furnace" name="furnace" class="factoryLevelSelect" data-factory-id="2">
-              <option value="0">1</option>
-              <option value="1">2</option>
-              <option value="2">3</option>
-              <option value="3">4</option>
-          </select>
-			</div>
-		</div>
-		<div class="levelfact" id="machine_box">
-			<div style="width: 125px; text-align:right"> Machine Shop :</div>
-			<div style="width: 30px">
-				<select id="machine" name="machine" class="factoryLevelSelect" data-factory-id="3">
-            <option value="0">1</option>
-            <option value="1">2</option>
-            <option value="2">3</option>
-            <option value="3">4</option>
-        </select>
-			</div>
-		</div>
-		<div class="levelfact" id="industrial_box">
-			<div style="width: 125px; text-align:right"> Industrial Factory :</div>
-			<div style="width: 30px; text-align:center">
-				<select id="industrial" name="industrial" class="factoryLevelSelect" data-factory-id="4">
+    <div class="mainbox" id="mainbox1">
+      <div class="leftContainer">
+        <div class="tabBox" id="inputBox1" style="width: 100%">
+          <div
+            class="matinput"
+            id="inputRate"
+            style="align-items: center; width: 100%"
+          >
+            <div style="text-align: center; font-weight: bold">
+              Desired Rate
+            </div>
+            <div style="text-align: center">
+              <input
+                type="text"
+                id="rate"
+                name="rate"
+                placeholder="Rate..."
+                value="1"
+                style="width: 25%"
+              />
+            </div>
+          </div>
+          <div class="matinput" style="width: 100%">
+            <div style="text-align: center; padding: 5px; font-weight: bold">
+              Desired Material
+            </div>
+            <div style="text-align: center">
+              <select id="material" name="material">
+                <option value="42">Atomic Locator</option>
+                <option value="28">Battery</option>
+                <option value="31">Carbon Fibre</option>
+                <option value="5">Coal</option>
+                <option value="33">Computer</option>
+                <option value="27">Concrete</option>
+                <option value="19">Condenser Lens</option>
+                <option value="8">Copper Ingot</option>
+                <option value="1">Copper Ore</option>
+                <option value="9">Copper Wire</option>
+                <option value="18">Coupler</option>
+                <option value="48">Earth Token</option>
+                <option value="29">Electric Motor</option>
+                <option value="22">Electromagnet</option>
+                <option value="39">Electron Microscope</option>
+                <option value="51">Empty Fuel Cell</option>
+                <option value="43">Energy Cube</option>
+                <option value="50">Enriched Uranium</option>
+                <option value="14">Glass</option>
+                <option value="16">Graphite</option>
+                <option value="35">Gyroscope</option>
+                <option value="20">Heat Sink</option>
+                <option value="34">Industrial Frame</option>
+                <option value="11">Iron Gear</option>
+                <option value="10">Iron Ingot</option>
+                <option value="2">Iron Ore</option>
+                <option value="21">Iron Plating</option>
+                <option value="30">Logic Circuit</option>
+                <option value="37">Magnetic Field Generator</option>
+                <option value="45">Matter Compressor</option>
+                <option value="47">Matter Duplicator</option>
+                <option value="23">Metal Frame</option>
+                <option value="32">Nano Wire</option>
+                <option value="52">Nuclear Fuel Cell</option>
+                <option value="46">Particle Glue</option>
+                <option value="38">Quantum Entangler</option>
+                <option value="26">Rotor</option>
+                <option value="12">Sand</option>
+                <option value="24">Steel</option>
+                <option value="25">Steel Rod</option>
+                <option value="13">Silicon</option>
+                <option value="3">Stone</option>
+                <option value="17">Tungsten Carbide</option>
+                <option value="15">Tungsten Ore</option>
+                <option value="36">Stabilizer</option>
+                <option value="41">Super Computer</option>
+                <option value="44">Tank</option>
+                <option value="40">Turbocharger</option>
+                <option value="49">Uranium</option>
+                <option value="4">Wolframite</option>
+                <option value="7">Wood Frame</option>
+                <option value="0">Wood Log</option>
+                <option value="6">Wood Plank</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="box4" id="extractor_qty" style="display: none">
+          <div style="font-weight: bold">Number of Extractors</div>
+          <div class="subbox2">
+            <div class="levelfact">
+              <div class="tablecell">Wood:</div>
+              <input
+                type="text"
+                id="wood_extractor_qty"
+                name="wood"
+                size="3"
+                maxlength="3"
+                value="0"
+                style="max-width: 80px"
+              />
+            </div>
+            <div class="levelfact">
+              <div class="tablecell">Copper:</div>
+              <input
+                type="text"
+                id="copper_extractor_qty"
+                name="wood"
+                size="3"
+                maxlength="3"
+                value="0"
+                style="max-width: 80px"
+              />
+            </div>
+            <div class="levelfact">
+              <div class="tablecell">Iron:</div>
+              <input
+                type="text"
+                id="iron_extractor_qty"
+                name="wood"
+                size="3"
+                maxlength="3"
+                value="0"
+                style="max-width: 80px"
+              />
+            </div>
+            <div class="levelfact">
+              <div class="tablecell">Stone:</div>
+              <input
+                type="text"
+                id="stone_extractor_qty"
+                name="wood"
+                size="3"
+                maxlength="3"
+                value="0"
+                style="max-width: 80px"
+              />
+            </div>
+            <div class="levelfact">
+              <div class="tablecell">Wolfram.:</div>
+              <input
+                type="text"
+                id="wolf_extractor_qty"
+                name="wood"
+                size="3"
+                maxlength="3"
+                value="0"
+                style="max-width: 80px"
+              />
+            </div>
+            <div class="levelfact">
+              <div class="tablecell">Coal:</div>
+              <input
+                type="text"
+                id="coal_extractor_qty"
+                name="wood"
+                size="3"
+                maxlength="3"
+                value="0"
+                style="max-width: 80px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box2" id="levelfact">
+        <div style="font-weight: bold">Building Levels</div>
+        <div
+          class="levelfact"
+          style="justify-content: center"
+          id="max_all_level"
+        >
+          <button style="padding: 8px 10px" onclick="maxFactory()">
+            Max All
+          </button>
+        </div>
+        <div class="subbox2">
+          <div class="levelfact" id="extractor_box">
+            <div style="width: 120px; text-align: right">Extractor :</div>
+            <div style="width: 30px">
+              <select
+                id="extractor"
+                name="extractor"
+                class="factoryLevelSelect"
+                data-factory-id="0"
+              >
                 <option value="0">1</option>
                 <option value="1">2</option>
                 <option value="2">3</option>
                 <option value="3">4</option>
-        </select>
-			</div>
-		</div>
-		<div class="levelfact" id="forge_box">
-			<div style="width: 125px; text-align:right"> Forge :</div>
-			<div style="width: 30px">
-				<select id="forge" name="forge" class="factoryLevelSelect" data-factory-id="5">
+                <option value="4">5</option>
+              </select>
+            </div>
+          </div>
+          <div class="levelfact" id="workshop_box">
+            <div style="width: 125px; text-align: right">Workshop :</div>
+            <div style="width: 30px">
+              <select
+                id="workshop"
+                name="workshop"
+                class="factoryLevelSelect"
+                data-factory-id="1"
+              >
                 <option value="0">1</option>
                 <option value="1">2</option>
                 <option value="2">3</option>
                 <option value="3">4</option>
-        </select>
-			</div>
-		</div>
-		<div class="levelfact" id="manufacturer_box">
-			<div style="width: 125px; text-align:right"> Manufacturer :</div>
-			<div style="width: 30px">
-				<select id="manufacturer" name="manufacturer" min-width="100px" class="factoryLevelSelect" data-factory-id="6">
+              </select>
+            </div>
+          </div>
+          <div class="levelfact" id="furnace_box">
+            <div style="width: 125px; text-align: right">Furnace :</div>
+            <div style="width: 30px">
+              <select
+                id="furnace"
+                name="furnace"
+                class="factoryLevelSelect"
+                data-factory-id="2"
+              >
                 <option value="0">1</option>
                 <option value="1">2</option>
                 <option value="2">3</option>
                 <option value="3">4</option>
-        </select>
-			</div>
-		</div>
-		<div class="levelfact" id="teleporter_box">
-			<div style="width: 125px; text-align: right"> Earth Teleporter :</div>
-			<div style="width: 30px">
-				<select id="teleporter" name="teleporter" min-width="100px" class="factoryLevelSelect" data-factory-id="7">
-					<option value="0">1</option>
-        </select>
-			</div>
-		</div>
+              </select>
+            </div>
+          </div>
+          <div class="levelfact" id="machine_box">
+            <div style="width: 125px; text-align: right">Machine Shop :</div>
+            <div style="width: 30px">
+              <select
+                id="machine"
+                name="machine"
+                class="factoryLevelSelect"
+                data-factory-id="3"
+              >
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+              </select>
+            </div>
+          </div>
+          <div class="levelfact" id="industrial_box">
+            <div style="width: 125px; text-align: right">
+              Industrial Factory :
+            </div>
+            <div style="width: 30px; text-align: center">
+              <select
+                id="industrial"
+                name="industrial"
+                class="factoryLevelSelect"
+                data-factory-id="4"
+              >
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+              </select>
+            </div>
+          </div>
+          <div class="levelfact" id="forge_box">
+            <div style="width: 125px; text-align: right">Forge :</div>
+            <div style="width: 30px">
+              <select
+                id="forge"
+                name="forge"
+                class="factoryLevelSelect"
+                data-factory-id="5"
+              >
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+              </select>
+            </div>
+          </div>
+          <div class="levelfact" id="manufacturer_box">
+            <div style="width: 125px; text-align: right">Manufacturer :</div>
+            <div style="width: 30px">
+              <select
+                id="manufacturer"
+                name="manufacturer"
+                min-width="100px"
+                class="factoryLevelSelect"
+                data-factory-id="6"
+              >
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+              </select>
+            </div>
+          </div>
+          <div class="levelfact" id="teleporter_box">
+            <div style="width: 125px; text-align: right">
+              Earth Teleporter :
+            </div>
+            <div style="width: 30px">
+              <select
+                id="teleporter"
+                name="teleporter"
+                min-width="100px"
+                class="factoryLevelSelect"
+                data-factory-id="7"
+              >
+                <option value="0">1</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
 
-	</div>
-</div>
+      <div style="display: flex; width: 100%; justify-content: center">
+        <button onclick="calculate()" ; id="calculate1" ; style="width: 200px">
+          CALCULATE
+        </button>
+      </div>
 
-<div style="display:flex; width:100%; justify-content: center">
-	<button onclick="calculate()"; id="calculate1"; style="width:200px">CALCULATE</button>
-</div>
+      <div style="display: flex; width: 100%; justify-content: center">
+        <button
+          onclick="factorycalc(true)"
+          ;
+          style="width: 200px; display: none"
+          ;
+          id="calculate2"
+        >
+          CALCULATE
+        </button>
+      </div>
+    </div>
 
+    <div class="box3" id="limit_resource"></div>
 
-	
-<div style="display:flex; width:100%; justify-content: center">
-		<button onclick="factorycalc(true)"; style="width: 200px; display:none"; id="calculate2">CALCULATE</button>
-	</div>
-</div>
+    <div class="box3" id="box3" ;>
+      <div>Total required</div>
+      <div class="subbox3">
+        <div id="matDiv00" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Wood_Log.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="Log"
+            />
+          </div>
+          <div id="mat00" class="matout">0</div>
+        </div>
+        <div id="matDiv01" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Copper_ore.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="cop"
+            />
+          </div>
+          <div id="mat01" class="matout">0</div>
+        </div>
+        <div id="matDiv02" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Iron_Ore.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="Iron"
+            />
+          </div>
+          <div id="mat02" class="matout">0</div>
+        </div>
+        <div id="matDiv03" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Stone.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="Stone"
+            />
+          </div>
+          <div id="mat03" class="matout">0</div>
+        </div>
+        <div id="matDiv04" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Wolframite.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="Wolf."
+            />
+          </div>
+          <div id="mat04" class="matout">0</div>
+        </div>
+        <div id="matDiv05" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Coal.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="Coal"
+            />
+          </div>
+          <div id="mat05" class="matout">0</div>
+        </div>
+        <div id="matDiv06" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Wood_Plank.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="Plank"
+            />
+          </div>
+          <div id="mat06" class="matout">0</div>
+        </div>
+        <div id="matDiv07" class="matsum">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Wooden_Frame.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="wFrame"
+            />
+          </div>
+          <div id="mat07" class="matout">0</div>
+        </div>
+        <div id="matDiv08" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Copper_Ingot.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="CopIng"
+            />
+          </div>
+          <div id="mat08" class="matout">0</div>
+        </div>
+        <div id="matDiv09" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Copper_Wire.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="CopIng"
+            />
+          </div>
+          <div id="mat09" class="matout">0</div>
+        </div>
+        <div id="matDiv10" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Iron_Ingot.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat10" class="matout">0</div>
+        </div>
+        <div id="matDiv11" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Iron_Gear.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat11" class="matout">0</div>
+        </div>
+        <div id="matDiv12" class="matsum">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Sand.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat12" class="matout">0</div>
+        </div>
+        <div id="matDiv13" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Silicon.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat13" class="matout">0</div>
+        </div>
+        <div id="matDiv14" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Glass.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat14" class="matout">0</div>
+        </div>
+        <div id="matDiv15" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Tungsten_Ore.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat15" class="matout">0</div>
+        </div>
+        <div id="matDiv16" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Graphite.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat16" class="matout">0</div>
+        </div>
+        <div id="matDiv17" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Tungsten_Carbide.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat17" class="matout">0</div>
+        </div>
+        <div id="matDiv18" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Coupler.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat18" class="matout">0</div>
+        </div>
+        <div id="matDiv19" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Condenser_Lens.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat19" class="matout">0</div>
+        </div>
+        <div id="matDiv20" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Heat_Sink.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat20" class="matout">0</div>
+        </div>
+        <div id="matDiv21" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Iron_Plate.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat21" class="matout">0</div>
+        </div>
+        <div id="matDiv22" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Electromagnet.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat22" class="matout">0</div>
+        </div>
+        <div id="matDiv23" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Metal_Frame.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat23" class="matout">0</div>
+        </div>
+        <div id="matDiv24" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Steel.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat24" class="matout">0</div>
+        </div>
+        <div id="matDiv25" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Steel_Rod.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat25" class="matout">0</div>
+        </div>
+        <div id="matDiv26" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Rotor.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat26" class="matout">0</div>
+        </div>
+        <div id="matDiv27" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Concrete.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat27" class="matout">0</div>
+        </div>
+        <div id="matDiv28" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Battery.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat28" class="matout">0</div>
+        </div>
+        <div id="matDiv29" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Electric_Motor.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat29" class="matout">0</div>
+        </div>
+        <div id="matDiv30" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Logic_Circuit.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat30" class="matout">0</div>
+        </div>
+        <div id="matDiv31" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Carbon_Fibre.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat31" class="matout">0</div>
+        </div>
+        <div id="matDiv32" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Nanowire.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat32" class="matout">0</div>
+        </div>
+        <div id="matDiv33" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Computer.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat33" class="matout">0</div>
+        </div>
+        <div id="matDiv34" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Industrial_Frame.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat34" class="matout">0</div>
+        </div>
+        <div id="matDiv35" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Gyroscope.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat35" class="matout">0</div>
+        </div>
+        <div id="matDiv36" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Stabiliser.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat36" class="matout">0</div>
+        </div>
+        <div id="matDiv37" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Mag_Field_Gen.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat37" class="matout">0</div>
+        </div>
+        <div id="matDiv38" class="matsum">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Quantum_Entangler.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat38" class="matout">0</div>
+        </div>
+        <div id="matDiv39" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Electron_Microscope.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat39" class="matout">0</div>
+        </div>
+        <div id="matDiv40" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/TurboCharger.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat40" class="matout">0</div>
+        </div>
+        <div id="matDiv41" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/SuperComputer.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat41" class="matout">0</div>
+        </div>
+        <div id="matDiv42" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Atomic_Locator.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat42" class="matout">0</div>
+        </div>
+        <div id="matDiv43" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Energy_Cube.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat43" class="matout">0</div>
+        </div>
+        <div id="matDiv44" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Tank.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat44" class="matout">0</div>
+        </div>
+        <div id="matDiv45" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Matter_Compressor.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat45" class="matout">0</div>
+        </div>
+        <div id="matDiv46" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Particle_Glue.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat46" class="matout">0</div>
+        </div>
+        <div id="matDiv47" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Matter_Duplicator.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat47" class="matout">0</div>
+        </div>
+        <div id="matDiv48" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Earth_Token.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat48" class="matout">0</div>
+        </div>
+        <div id="matDiv49" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/Builderment/main/image/Uranium.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat49" class="matout">0</div>
+        </div>
+        <div id="matDiv50" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/Builderment/main/image/Enriched_Uranium.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat50" class="matout">0</div>
+        </div>
+        <div id="matDiv51" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/Builderment/main/image/Empty_Fuel_Cell.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat51" class="matout">0</div>
+        </div>
+        <div id="matDiv52" class="matsum" style="display: flex">
+          <div>
+            <img
+              class="ico"
+              src="https://raw.githubusercontent.com/saprolord/Builderment/main/image/Nuclear_Fuel_Cell.png"
+              style="max-width: 30px; height: auto; float: left"
+              alt="IroIng"
+            />
+          </div>
+          <div id="mat52" class="matout">0</div>
+        </div>
+      </div>
+    </div>
 
-<div class="box3" id="limit_resource" >  </div>
+    <div id="tierButtonBox"></div>
 
-<div class="box3" id="box3"; >
-  <div> Total required </div>
-		<div class="subbox3">
-			<div id="matDiv00" class="matsum" style="display: flex">
-				<div> <img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Wood_Log.png" style="max-width:30px;height:auto;float: left" alt="Log"> </div>
-				<div id="mat00" class="matout"> 0 </div>
-			</div>
-			<div id="matDiv01" class="matsum" style="display: flex">
-				<div> <img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Copper_ore.png" style="max-width:30px;height:auto;float: left" alt="cop"> </div>
-				<div id="mat01" class="matout"> 0 </div>
-			</div>
-			<div id="matDiv02" class="matsum" style="display: flex">
-				<div> <img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Iron_Ore.png" style="max-width:30px;height:auto;float: left" alt="Iron"> </div>
-				<div id="mat02" class="matout"> 0 </div>
-			</div>
-			<div id="matDiv03" class="matsum" style="display: flex">
-				<div> <img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Stone.png" style="max-width:30px;height:auto;float: left" alt="Stone"> </div>
-				<div id="mat03" class="matout"> 0 </div>
-			</div>
-			<div id="matDiv04" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Wolframite.png" style="max-width:30px;height:auto;float: left" alt="Wolf."> </div>
-					<div id="mat04" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv05" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Coal.png" style="max-width:30px;height:auto;float: left" alt="Coal"> </div>
-					<div id="mat05" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv06" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Wood_Plank.png" style="max-width:30px;height:auto;float: left" alt="Plank"> </div>
-					<div id="mat06" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv07" class="matsum" >
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Wooden_Frame.png" style="max-width:30px;height:auto;float: left" alt="wFrame"> </div>
-					<div id="mat07" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv08" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Copper_Ingot.png" style="max-width:30px;height:auto;float: left" alt="CopIng"> </div>
-					<div id="mat08" class="matout"> 0 </div>
-			</div>
-			<div id="matDiv09" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Copper_Wire.png" style="max-width:30px;height:auto;float: left" alt="CopIng"> </div>
-					<div id="mat09" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv10" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Iron_Ingot.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat10" class="matout"> 0 </div>
-			</div>
-			<div id="matDiv11" class="matsum" style="display: flex">
-				<div>	<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Iron_Gear.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat11" class="matout"> 0 </div>
-			</div>
-			<div id="matDiv12" class="matsum" >
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Sand.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat12" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv13" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Silicon.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat13" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv14" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Glass.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat14" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv15" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Tungsten_Ore.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat15" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv16" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Graphite.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat16" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv17" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Tungsten_Carbide.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat17" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv18" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Coupler.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat18" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv19" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Condenser_Lens.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat19" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv20" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Heat_Sink.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat20" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv21" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Iron_Plate.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat21" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv22" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Electromagnet.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat22" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv23" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Metal_Frame.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat23" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv24" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Steel.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat24" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv25" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Steel_Rod.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat25" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv26" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Rotor.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat26" class="matout"> 0 </div>
-				</div>
-		<div id="matDiv27" class="matsum" style="display: flex">
-			<div>
-				<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Concrete.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-				<div id="mat27" class="matout"> 0 </div>
-			</div>
-			<div id="matDiv28" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Battery.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat28" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv29" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Electric_Motor.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat29" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv30" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Logic_Circuit.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat30" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv31" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Carbon_Fibre.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat31" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv32" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Nanowire.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat32" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv33" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Computer.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat33" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv34" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Industrial_Frame.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat34" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv35" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Gyroscope.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat35" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv36" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Stabiliser.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat36" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv37" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Mag_Field_Gen.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat37" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv38" class="matsum">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Quantum_Entangler.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat38" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv39" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Electron_Microscope.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat39" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv40" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/TurboCharger.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat40" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv41" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/SuperComputer.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat41" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv42" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Atomic_Locator.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat42" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv43" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Energy_Cube.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat43" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv44" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Tank.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat44" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv45" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Matter_Compressor.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat45" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv46" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Particle_Glue.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat46" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv47" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Matter_Duplicator.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat47" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv48" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Earth_Token.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat48" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv49" class="matsum" style="display: flex">
-				<div>
-				<img class="ico" src="https://raw.githubusercontent.com/saprolord/Builderment/main/image/Uranium.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-				<div id="mat49" class="matout"> 0 </div>
-			</div>
-			<div id="matDiv50" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/Builderment/main/image/Enriched_Uranium.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat50" class="matout"> 0 </div>
-				</div>
-			<div id="matDiv51" class="matsum" style="display: flex">
-			<div>
-				<img class="ico" src="https://raw.githubusercontent.com/saprolord/Builderment/main/image/Empty_Fuel_Cell.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-				<div id="mat51" class="matout"> 0 </div>
-			</div>
-			<div id="matDiv52" class="matsum" style="display: flex">
-				<div>
-					<img class="ico" src="https://raw.githubusercontent.com/saprolord/Builderment/main/image/Nuclear_Fuel_Cell.png" style="max-width:30px;height:auto;float: left" alt="IroIng"> </div>
-					<div id="mat52" class="matout"> 0 </div>
-				</div>
-		</div>
-  </div>
-</div>
+    <div class="treeBox" id="TreeTop" style="display: none"></div>
 
+    <button
+      id="tierButtonTemplate"
+      class="tierButton"
+      style="display: none"
+    ></button>
 
-<div id="buttonBox" class="buttonBox">
-</div>
+    <div
+      id="branchTemplate"
+      class="branch treeLevel"
+      data-expanded="true"
+      style="display: none"
+    >
+      <div class="branchBox">
+        <div class="branchSimple"></div>
+        <div class="branchEnd"></div>
+        <div class="branchDown"></div>
+      </div>
+      <div class="leafWrapper"></div>
+      <div class="plusMinus">
+        <span class="icoPlusMinus"> </span>
+      </div>
 
-<div class="treeBox" id="TreeTop" style="display:none;"></div> 
+      <div class="matChildren"></div>
+    </div>
 
-<div id="branchTemplate" class="branch treeLevel" data-expanded="true" style="display: none">
-	<div class="branchBox">
-		<div class="branchSimple"></div>
-		<div class="branchEnd"></div>
-		<div class="branchDown"></div>
-	</div>
-	<div class="leafWrapper"></div>
-	<div class="plusMinus">
-	<span class="icoPlusMinus">
-	</span>
-	</div>	
+    <div id="leafTemplate" class="leaf matBox" style="display: none">
+      <div class="matDetail">
+        <div class="matNameBox">
+          <img src="" alt="" class="ico matIcon" />
+          <span class="matName"></span>
+        </div>
+        <div class="matRateBox">
+          <span class="matRate"></span>
+        </div>
+        <div class="factoryNameBox">
+          <span class="factoryName"></span>
+        </div>
+        <div class="factoryNumBox">
+          <span class="factoryNum"></span>
+        </div>
+      </div>
+    </div>
 
-	<div class="matChildren"></div>
-</div>
-
-<div id="leafTemplate" class="leaf matBox" style="display: none;">
-	<div class="matDetail">
-		<div class="matNameBox">
-			<img src="" alt="" class="ico matIcon">
-			<span class="matName"></span>
-		</div>
-		<div class="matRateBox">
-			<span class="matRate"></span>
-		</div>
-		<div class="factoryNameBox">
-			<span class="factoryName"></span>
-		</div>
-		<div class="factoryNumBox">
-			<span class="factoryNum"></span>
-		</div>
-	</div>
-</div>
-
-<script src="scripts.js"></script>
-</body>
-
+    <script src="scripts.js"></script>
+  </body>
 </html>

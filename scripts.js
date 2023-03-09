@@ -1,6 +1,3 @@
-// import materials from "./materials.json" assert { type: "json" };
-// import factories from "./factories.json" assert { type: "json" };
-
 const DOM = {
   inputs: {
     rate: document.getElementById("rate"),
@@ -8,6 +5,7 @@ const DOM = {
     factoryLevels: document.querySelectorAll(".factoryLevelSelect"),
   },
   treeTop: document.getElementById("TreeTop"),
+  tierBox: document.getElementById("tierButtonBox"),
 };
 
 const CONSTANTS = {
@@ -25,26 +23,57 @@ fetch("./factories.json")
   .then((data) => (CONSTANTS.factories = data));
 
 class Calculation {
-  constructor(container, { rate, material, factoryLevels }) {
-    this.DOM = { container: container };
+  constructor(container, tierBox, { rate, material, factoryLevels }) {
+    this.DOM = { container, tierBox };
 
     this.rate = rate;
     this.material = material;
     this.factoryLevels = factoryLevels;
 
     this.DOM.container.innerHTML = "";
+    this.DOM.tierBox.innerHTML = "";
+
+    this.tree = [];
   }
 
   get extractorRatio() {}
 
   buildTree() {
-    new Branch(this.DOM.container, this.material, this.rate);
+    new Branch(this.DOM.container, this.material, this.rate, this.tree);
     this.DOM.container.style.display = "flex";
+    console.log(this.tree);
+  }
+
+  buildTierButtons() {
+    this.DOM.tierBox.style.display = "flex";
+
+    this.tree.forEach((_level, idx) => {
+      new TierButton(this.DOM.tierBox, idx, this.onTierButtonClick.bind(this));
+    });
+  }
+
+  onTierButtonClick(showLevel) {
+    console.log(showLevel);
+    this.tree.forEach((level, idx) => {
+      if (idx >= showLevel) {
+        level.forEach((branch) => branch.hide());
+      } else {
+        level.forEach((branch) => branch.show());
+      }
+    });
+
+    // this.tree[level].forEach((branch, idx) => {
+    //   if (level > idx) {
+    //     branch.hide();
+    //   } else {
+    //     branch.show();
+    //   }
+    // });
   }
 }
 
 class Branch {
-  constructor(parent, material, rate, branchType = "null") {
+  constructor(parent, material, rate, tree, level = 0, branchType = "null") {
     this.material = CONSTANTS.materials[material];
     this.rate = rate;
     this.branchType = branchType;
@@ -94,12 +123,25 @@ class Branch {
           branchType = "middle";
         }
 
-        new Branch(this.DOM.children, material, rate, branchType);
+        new Branch(
+          this.DOM.children,
+          material,
+          rate,
+          tree,
+          level + 1,
+          branchType
+        );
       });
     }
 
     this.DOM.container.style.display = "flex";
     this.DOM.parent.append(this.DOM.container);
+
+    if (tree[level] === undefined) {
+      tree[level] = [];
+    }
+
+    tree[level].push(this);
   }
 
   get expanded() {
@@ -111,16 +153,24 @@ class Branch {
 
   toggle() {
     if (this.expanded) {
-      this.DOM.children.style.display = "none";
-      this.DOM.plusMinus.classList.remove("icoMinus");
-      this.DOM.plusMinus.classList.add("icoPlus");
-      this.expanded = false;
+      this.hide();
     } else {
-      this.DOM.children.style.display = "flex";
-      this.DOM.plusMinus.classList.remove("icoPlus");
-      this.DOM.plusMinus.classList.add("icoMinus");
-      this.expanded = true;
+      this.show();
     }
+  }
+
+  show() {
+    this.DOM.children.style.display = "flex";
+    this.DOM.plusMinus.classList.remove("icoPlus");
+    this.DOM.plusMinus.classList.add("icoMinus");
+    this.expanded = true;
+  }
+
+  hide() {
+    this.DOM.children.style.display = "none";
+    this.DOM.plusMinus.classList.remove("icoMinus");
+    this.DOM.plusMinus.classList.add("icoPlus");
+    this.expanded = false;
   }
 }
 
@@ -157,6 +207,28 @@ class Leaf {
   }
 }
 
+class TierButton {
+  constructor(parent, level, onClick) {
+    this.level = level;
+    this.onClick = onClick;
+
+    this.DOM = {
+      parent,
+      container: document.querySelector("#tierButtonTemplate").cloneNode(true),
+    };
+
+    this.DOM.container.id = "";
+    this.DOM.container.innerText = level;
+    this.DOM.container.style.display = "flex";
+
+    this.DOM.container.addEventListener("click", () =>
+      this.onClick(this.level)
+    );
+
+    this.DOM.parent.append(this.DOM.container);
+  }
+}
+
 function getUserFactoryLevels() {
   return [...document.querySelectorAll(".factoryLevelSelect")].map((el) => [
     el.getAttribute("data-factory-id"),
@@ -166,13 +238,14 @@ function getUserFactoryLevels() {
 
 function calculate() {
   console.log("go");
-  const calc = new Calculation(DOM.treeTop, {
+  const calc = new Calculation(DOM.treeTop, DOM.tierBox, {
     rate: DOM.inputs.rate.value,
     material: DOM.inputs.material.value,
     factoryLevels: getUserFactoryLevels(),
   });
 
   calc.buildTree();
+  calc.buildTierButtons();
 }
 
 function factorycalc(reverse) {
