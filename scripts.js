@@ -44,9 +44,10 @@ class Calculation {
 }
 
 class Branch {
-  constructor(parent, material, rate) {
+  constructor(parent, material, rate, branchType = "null") {
     this.material = CONSTANTS.materials[material];
     this.rate = rate;
+    this.branchType = branchType;
     this.leaf = null;
     this.children = [];
 
@@ -55,14 +56,17 @@ class Branch {
       container: document.querySelector("#branchTemplate").cloneNode(true),
     };
 
+    this.DOM.branchBox = this.DOM.container.querySelector(".branchBox");
+    this.DOM.leafWrapper = this.DOM.container.querySelector(".leafWrapper");
     this.DOM.plusMinus = this.DOM.container.querySelector(".plusMinus");
-    // this.DOM.icoPlusMinus = this.DOM.container.querySelector(".icoPlusMinus");
     this.DOM.children = this.DOM.container.querySelector(".matChildren");
 
     this.DOM.container.id = "";
 
+    this.DOM.branchBox.classList.add(`branchType-${this.branchType}`);
+
     this.DOM.leaf = new Leaf(material, rate).DOM.container;
-    this.DOM.container.prepend(this.DOM.leaf);
+    this.DOM.leafWrapper.append(this.DOM.leaf);
 
     if (this.material.recipe[0][0] === null) {
       this.DOM.plusMinus.style.display = "none";
@@ -73,9 +77,25 @@ class Branch {
       this.DOM.leaf.addEventListener("click", this.toggle.bind(this));
       this.DOM.plusMinus.addEventListener("click", this.toggle.bind(this));
 
-      this.children = this.material.recipe.map(
-        ([material, rate]) => new Branch(this.DOM.children, material, rate)
-      );
+      this.children = this.material.recipe.map(([material, rate], idx, all) => {
+        let branchType;
+
+        if (all.length === 1) {
+          // just one child
+          branchType = "solo";
+        } else if (idx === 0) {
+          // multiple children, first child
+          branchType = "start";
+        } else if (idx === all.length - 1) {
+          // multiple children, last child
+          branchType = "end";
+        } else {
+          // multiple children, middle child
+          branchType = "middle";
+        }
+
+        new Branch(this.DOM.children, material, rate, branchType);
+      });
     }
 
     this.DOM.container.style.display = "flex";

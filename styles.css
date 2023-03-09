@@ -274,6 +274,7 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   width: 190px;
+  margin-bottom: 15px;
   /* height: 85px; */
 }
 
@@ -336,6 +337,32 @@ button:hover {
   align-content: stretch;
   flex-direction: column;
   width: 10px;
+}
+
+.branchBox.branchType-null {
+  display: none;
+}
+
+/* only child */
+.branchBox.branchType-solo .branchEnd,
+.branchBox.branchType-solo .branchDown {
+  display: none;
+}
+
+/* first child of multiple */
+.branchBox.branchType-start .branchEnd {
+  display: none;
+}
+
+/* middle child of multiple */
+.branchBox.branchType-middle .branchSimple {
+  display: none;
+}
+
+/* last child of multiple */
+.branchBox.branchType-end .branchSimple,
+.branchBox.branchType-end .branchDown {
+  display: none;
 }
 
 .branchOut {
