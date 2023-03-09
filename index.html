@@ -524,11 +524,16 @@ background-size: 100% ;
 
 <div class="treeBox" id="TreeTop" style="display:none;"></div> 
 
-<div id="branchTemplate" class="treeLevel" style="display: none">
+<div id="branchTemplate" class="branch treeLevel" data-expanded="true" style="display: none">
+	<div class="plusMinus">
+	<span class="icoPlusMinus">
+	</span>
+	</div>	
+
 	<div class="matChildren"></div>
 </div>
 
-<div id="leafTemplate" class="matBox" style="display: none;">
+<div id="leafTemplate" class="leaf matBox" style="display: none;">
 	<div class="matDetail">
 		<div class="matNameBox">
 			<img src="" alt="" class="ico matIcon">
@@ -543,8 +548,6 @@ background-size: 100% ;
 		<div class="factoryNumBox">
 			<span class="factoryNum"></span>
 		</div>
-	</div>
-	<div class="icoPlusMinus">
 	</div>
 </div>
 

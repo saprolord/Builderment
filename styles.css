@@ -407,6 +407,18 @@ button:hover {
 .icoPlusMinus {
   height: 15px;
   width: 15px;
+  background-size: contain;
+  background-position: center center;
+  background-color: transparent;
+  background-repeat: no-repeat;
+}
+
+.plusMinus.icoMinus > .icoPlusMinus {
+  background-image: url("/image/Minus_Sign.png");
+}
+
+.plusMinus.icoPlus > .icoPlusMinus {
+  background-image: url("/image/Plus_Sign.png");
 }
 
 @media screen and (max-width: 800px) {

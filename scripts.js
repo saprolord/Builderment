@@ -55,16 +55,24 @@ class Branch {
       container: document.querySelector("#branchTemplate").cloneNode(true),
     };
 
+    this.DOM.plusMinus = this.DOM.container.querySelector(".plusMinus");
+    // this.DOM.icoPlusMinus = this.DOM.container.querySelector(".icoPlusMinus");
     this.DOM.children = this.DOM.container.querySelector(".matChildren");
 
     this.DOM.container.id = "";
 
-    this.leaf = new Leaf(material, rate);
-    this.DOM.container.prepend(this.leaf.DOM.container);
+    this.DOM.leaf = new Leaf(material, rate).DOM.container;
+    this.DOM.container.prepend(this.DOM.leaf);
 
     if (this.material.recipe[0][0] === null) {
+      this.DOM.plusMinus.style.display = "none";
       this.DOM.children.style.display = "none";
     } else {
+      this.DOM.plusMinus.classList.add("icoMinus");
+
+      this.DOM.leaf.addEventListener("click", this.toggle.bind(this));
+      this.DOM.plusMinus.addEventListener("click", this.toggle.bind(this));
+
       this.children = this.material.recipe.map(
         ([material, rate]) => new Branch(this.DOM.children, material, rate)
       );
@@ -72,6 +80,27 @@ class Branch {
 
     this.DOM.container.style.display = "flex";
     this.DOM.parent.append(this.DOM.container);
+  }
+
+  get expanded() {
+    return this.DOM.container.getAttribute("data-expanded") === "true";
+  }
+  set expanded(value) {
+    this.DOM.container.setAttribute("data-expanded", value);
+  }
+
+  toggle() {
+    if (this.expanded) {
+      this.DOM.children.style.display = "none";
+      this.DOM.plusMinus.classList.remove("icoMinus");
+      this.DOM.plusMinus.classList.add("icoPlus");
+      this.expanded = false;
+    } else {
+      this.DOM.children.style.display = "flex";
+      this.DOM.plusMinus.classList.remove("icoPlus");
+      this.DOM.plusMinus.classList.add("icoMinus");
+      this.expanded = true;
+    }
   }
 }
 
@@ -90,7 +119,6 @@ class Leaf {
     this.DOM.rate = this.DOM.container.querySelector(".matRate");
     this.DOM.factoryName = this.DOM.container.querySelector(".factoryName");
     this.DOM.factoryNum = this.DOM.container.querySelector(".factoryNum");
-    this.DOM.plusMinus = this.DOM.container.querySelector(".icoPlusMinus");
 
     this.DOM.icon.setAttribute(
       "src",
@@ -104,10 +132,6 @@ class Leaf {
       CONSTANTS.factories[this.material.factory[0]].name;
     this.DOM.factoryNum.innerText =
       Math.ceil((rate / this.material.factory[1]) * 100) / 100;
-
-    if (this.material.recipe[0][0] === null) {
-      this.DOM.plusMinus.style.display = "none";
-    }
 
     this.DOM.container.style.display = "flex";
   }
