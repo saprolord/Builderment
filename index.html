@@ -23,7 +23,7 @@ background-size: 100% ;
 
 <body>
 <!-- Load external JavaScript -->
-<script src="scripts.js"></script>
+
 
 <div style="display:flex; width:100%; justify-content:center; align-items: center ">
 	<img src="https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/Builderment_Ico.jpg" class="headIco" alt="ico">
@@ -523,6 +523,32 @@ background-size: 100% ;
 </div>
 
 <div class="treeBox" id="TreeTop" style="display:none;"></div> 
+
+<div id="branchTemplate" class="treeLevel" style="display: none">
+	<div class="matChildren"></div>
+</div>
+
+<div id="leafTemplate" class="matBox" style="display: none;">
+	<div class="matDetail">
+		<div class="matNameBox">
+			<img src="" alt="" class="ico matIcon">
+			<span class="matName"></span>
+		</div>
+		<div class="matRateBox">
+			<span class="matRate"></span>
+		</div>
+		<div class="factoryNameBox">
+			<span class="factoryName"></span>
+		</div>
+		<div class="factoryNumBox">
+			<span class="factoryNum"></span>
+		</div>
+	</div>
+	<div class="icoPlusMinus">
+	</div>
+</div>
+
+<script src="scripts.js"></script>
 </body>
 
 </html>

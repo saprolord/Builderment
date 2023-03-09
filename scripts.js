@@ -10,24 +10,107 @@ const DOM = {
   treeTop: document.getElementById("TreeTop"),
 };
 
-let materials;
-let factories;
+const CONSTANTS = {
+  iconFolder:
+    "https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/",
+  materials: null,
+  factories: null,
+};
 
 fetch("./materials.json")
   .then((res) => res.json())
-  .then((data) => (materials = data));
+  .then((data) => (CONSTANTS.materials = data));
 fetch("./factories.json")
   .then((res) => res.json())
-  .then((data) => (factories = data));
+  .then((data) => (CONSTANTS.factories = data));
 
 class Calculation {
-  constructor({ rate, material, factoryLevels }) {
+  constructor(container, { rate, material, factoryLevels }) {
+    this.DOM = { container: container };
+
     this.rate = rate;
     this.material = material;
     this.factoryLevels = factoryLevels;
+
+    this.DOM.container.innerHTML = "";
   }
 
-  init() {}
+  get extractorRatio() {}
+
+  buildTree() {
+    new Branch(this.DOM.container, this.material, this.rate);
+    this.DOM.container.style.display = "flex";
+  }
+}
+
+class Branch {
+  constructor(parent, material, rate) {
+    this.material = CONSTANTS.materials[material];
+    this.rate = rate;
+    this.leaf = null;
+    this.children = [];
+
+    this.DOM = {
+      parent: parent,
+      container: document.querySelector("#branchTemplate").cloneNode(true),
+    };
+
+    this.DOM.children = this.DOM.container.querySelector(".matChildren");
+
+    this.DOM.container.id = "";
+
+    this.leaf = new Leaf(material, rate);
+    this.DOM.container.prepend(this.leaf.DOM.container);
+
+    if (this.material.recipe[0][0] === null) {
+      this.DOM.children.style.display = "none";
+    } else {
+      this.children = this.material.recipe.map(
+        ([material, rate]) => new Branch(this.DOM.children, material, rate)
+      );
+    }
+
+    this.DOM.container.style.display = "flex";
+    this.DOM.parent.append(this.DOM.container);
+  }
+}
+
+class Leaf {
+  constructor(material, rate) {
+    this.material = CONSTANTS.materials[material];
+    this.rate = rate;
+
+    this.DOM = {
+      container: document.querySelector("#leafTemplate").cloneNode(true),
+    };
+
+    this.DOM.container.id = "";
+    this.DOM.name = this.DOM.container.querySelector(".matName");
+    this.DOM.icon = this.DOM.container.querySelector(".matIcon");
+    this.DOM.rate = this.DOM.container.querySelector(".matRate");
+    this.DOM.factoryName = this.DOM.container.querySelector(".factoryName");
+    this.DOM.factoryNum = this.DOM.container.querySelector(".factoryNum");
+    this.DOM.plusMinus = this.DOM.container.querySelector(".icoPlusMinus");
+
+    this.DOM.icon.setAttribute(
+      "src",
+      `${CONSTANTS.iconFolder}/${this.material.slug}.png`
+    );
+    this.DOM.icon.setAttribute("alt", this.material.name);
+
+    this.DOM.name.innerText = this.material.name;
+    this.DOM.rate.innerText = Math.round(rate * 100) / 100;
+    this.DOM.factoryName.innerText =
+      CONSTANTS.factories[this.material.factory[0]].name;
+    this.DOM.factoryNum.innerText =
+      Math.ceil((rate / this.material.factory[1]) * 100) / 100;
+
+    if (this.material.recipe[0][0] === null) {
+      this.DOM.plusMinus.style.display = "none";
+    }
+
+    this.DOM.container.style.display = "flex";
+  }
 }
 
 function getUserFactoryLevels() {
@@ -39,11 +122,13 @@ function getUserFactoryLevels() {
 
 function calculate() {
   console.log("go");
-  const calc = new Calculation({
+  const calc = new Calculation(DOM.treeTop, {
     rate: DOM.inputs.rate.value,
     material: DOM.inputs.material.value,
     factoryLevels: getUserFactoryLevels(),
   });
+
+  calc.buildTree();
 }
 
 function factorycalc(reverse) {
