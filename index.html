@@ -150,7 +150,7 @@ background-size: 100% ;
 		<div class="levelfact" id="extractor_box">
 			<div style="width: 120px ; text-align: right"> Extractor :</div>
 			<div style="width: 30px">
-				<select id="extractor" name="extractor">
+				<select id="extractor" name="extractor" class="factoryLevelSelect" data-factory-id="0">
             <option value="0">1</option>
             <option value="1">2</option>
             <option value="2">3</option>
@@ -162,7 +162,7 @@ background-size: 100% ;
 		<div class="levelfact" id="workshop_box">
 			<div style="width: 125px; text-align:right"> Workshop :</div>
 			<div style="width: 30px">
-				<select id="workshop" name="workshop">
+				<select id="workshop" name="workshop" class="factoryLevelSelect" data-factory-id="1">
 	            <option value="0">1</option>
 	            <option value="1">2</option>
 	            <option value="2">3</option>
@@ -173,7 +173,7 @@ background-size: 100% ;
 		<div class="levelfact" id="furnace_box">
 			<div style="width: 125px; text-align:right"> Furnace :</div>
 			<div style="width: 30px">
-				<select id="furnace" name="furnace">
+				<select id="furnace" name="furnace" class="factoryLevelSelect" data-factory-id="2">
               <option value="0">1</option>
               <option value="1">2</option>
               <option value="2">3</option>
@@ -184,7 +184,7 @@ background-size: 100% ;
 		<div class="levelfact" id="machine_box">
 			<div style="width: 125px; text-align:right"> Machine Shop :</div>
 			<div style="width: 30px">
-				<select id="machine" name="machine">
+				<select id="machine" name="machine" class="factoryLevelSelect" data-factory-id="3">
             <option value="0">1</option>
             <option value="1">2</option>
             <option value="2">3</option>
@@ -195,7 +195,7 @@ background-size: 100% ;
 		<div class="levelfact" id="industrial_box">
 			<div style="width: 125px; text-align:right"> Industrial Factory :</div>
 			<div style="width: 30px; text-align:center">
-				<select id="industrial" name="industrial">
+				<select id="industrial" name="industrial" class="factoryLevelSelect" data-factory-id="4">
                 <option value="0">1</option>
                 <option value="1">2</option>
                 <option value="2">3</option>
@@ -206,7 +206,7 @@ background-size: 100% ;
 		<div class="levelfact" id="forge_box">
 			<div style="width: 125px; text-align:right"> Forge :</div>
 			<div style="width: 30px">
-				<select id="forge" name="forge">
+				<select id="forge" name="forge" class="factoryLevelSelect" data-factory-id="5">
                 <option value="0">1</option>
                 <option value="1">2</option>
                 <option value="2">3</option>
@@ -217,7 +217,7 @@ background-size: 100% ;
 		<div class="levelfact" id="manufacturer_box">
 			<div style="width: 125px; text-align:right"> Manufacturer :</div>
 			<div style="width: 30px">
-				<select id="manufacturer" name="manufacturer" min-width="100px">
+				<select id="manufacturer" name="manufacturer" min-width="100px" class="factoryLevelSelect" data-factory-id="6">
                 <option value="0">1</option>
                 <option value="1">2</option>
                 <option value="2">3</option>
@@ -228,7 +228,7 @@ background-size: 100% ;
 		<div class="levelfact" id="teleporter_box">
 			<div style="width: 125px; text-align: right"> Earth Teleporter :</div>
 			<div style="width: 30px">
-				<select id="teleporter" name="teleporter" min-width="100px">
+				<select id="teleporter" name="teleporter" min-width="100px" class="factoryLevelSelect" data-factory-id="7">
 					<option value="0">1</option>
         </select>
 			</div>
@@ -238,7 +238,7 @@ background-size: 100% ;
 </div>
 
 <div style="display:flex; width:100%; justify-content: center">
-	<button onclick="factorycalc(false)"; id="calculate1"; style="width:200px">CALCULATE</button>
+	<button onclick="calculate()"; id="calculate1"; style="width:200px">CALCULATE</button>
 </div>
 
 
@@ -523,7 +523,6 @@ background-size: 100% ;
 </div>
 
 <div class="treeBox" id="TreeTop" style="display:none;"></div> 
-
 </body>
 
 </html>

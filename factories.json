@@ -1,0 +1,13 @@
+[
+  { "id": 0, "name": "Extractor" },
+  { "id": 1, "name": "Workshop" },
+  { "id": 2, "name": "Furnace" },
+  { "id": 3, "name": "Machine Shop" },
+  { "id": 4, "name": "Industrial Factory" },
+  { "id": 5, "name": "Forge" },
+  { "id": 6, "name": "Manufacturer" },
+  { "id": 7, "name": "Earth Teleporter" },
+  { "id": 8, "name": "Uranium Extractor" },
+  { "id": 9, "name": "Coal Power Plant" },
+  { "id": 10, "name": "Nuclear Power Plant" }
+]
