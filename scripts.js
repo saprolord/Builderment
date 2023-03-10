@@ -6,11 +6,12 @@ const DOM = {
   },
   treeTop: document.getElementById("TreeTop"),
   tierBox: document.getElementById("tierButtonBox"),
+  totalsBox: document.getElementById("totalsBox"),
+  totalsList: document.getElementById("totalsList"),
 };
 
 const CONSTANTS = {
-  iconFolder:
-    "https://raw.githubusercontent.com/saprolord/saprolord.github.io/main/image/",
+  iconFolder: "/image",
   materials: null,
   factories: null,
 };
@@ -41,7 +42,6 @@ class Calculation {
   buildTree() {
     new Branch(this.DOM.container, this.material, this.rate, this.tree);
     this.DOM.container.style.display = "flex";
-    console.log(this.tree);
   }
 
   buildTierButtons() {
@@ -50,6 +50,32 @@ class Calculation {
     this.tree.forEach((_level, idx) => {
       new TierButton(this.DOM.tierBox, idx, this.onTierButtonClick.bind(this));
     });
+  }
+
+  buildTotalsBox() {
+    const totals = this.tree.reduce((acc, level) => {
+      level.forEach(({ material, rate }) => {
+        acc[material.id] =
+          acc[material.id] === undefined ? rate : acc[material.id] + rate;
+      });
+
+      return acc;
+    }, {});
+
+    Object.keys(totals).forEach((materialId) => {
+      const totalEntry = document
+        .querySelector("#totalItemTemplate")
+        .cloneNode(true);
+      totalEntry.removeAttribute("id");
+
+      totalEntry.innerText = totals[materialId];
+      totalEntry.style.backgroundImage = `url("${CONSTANTS.iconFolder}/${CONSTANTS.materials[materialId].slug}.png")`;
+      totalEntry.style.display = "flex";
+
+      DOM.totalsList.append(totalEntry);
+    });
+
+    DOM.totalsBox.style.display = "flex";
   }
 
   onTierButtonClick(showLevel) {
@@ -81,7 +107,7 @@ class Branch {
     this.DOM.plusMinus = this.DOM.container.querySelector(".plusMinus");
     this.DOM.children = this.DOM.container.querySelector(".matChildren");
 
-    this.DOM.container.id = "";
+    this.DOM.container.removeAttribute("id");
 
     this.DOM.branchBox.classList.add(`branchType-${this.branchType}`);
 
@@ -174,7 +200,7 @@ class Leaf {
       container: document.querySelector("#leafTemplate").cloneNode(true),
     };
 
-    this.DOM.container.id = "";
+    this.DOM.container.removeAttribute("id");
     this.DOM.name = this.DOM.container.querySelector(".matName");
     this.DOM.icon = this.DOM.container.querySelector(".matIcon");
     this.DOM.rate = this.DOM.container.querySelector(".matRate");
@@ -207,7 +233,7 @@ class TierButton {
       container: document.querySelector("#tierButtonTemplate").cloneNode(true),
     };
 
-    this.DOM.container.id = "";
+    this.DOM.container.removeAttribute("id");
     this.DOM.container.innerText = level;
     this.DOM.container.style.display = "flex";
 
@@ -236,6 +262,7 @@ function calculate() {
 
   calc.buildTree();
   calc.buildTierButtons();
+  calc.buildTotalsBox();
 }
 
 function factorycalc(reverse) {

@@ -1,3 +1,9 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
 input[type="text"],
 select {
   width: 100%;
@@ -220,28 +226,46 @@ button:hover {
   align-items: center;
 }
 
-.box3 {
+#totalsBox {
   display: none;
-  flex-direction: column;
+  flex-direction: row;
   background: #f2f2f2;
   align-items: center;
   justify-content: center;
   width: 100%;
   border: 1px solid black;
   box-sizing: border-box;
+  margin: 10px 0px;
 }
 
-.subbox3 {
+#totalsLabel {
+  width: 20%;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+}
+
+#totalsLabel > p {
+  width: 100%;
+}
+
+#totalsList {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
+  padding-left: 0px;
 }
 
-.matsum {
+.totalItem {
   display: flex;
   align-items: center;
-  min-width: 54px;
+  width: 70px;
+  height: 30px;
+  background-position: center left;
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding-left: 35px;
 }
 
 .matout {
