@@ -7,13 +7,13 @@ const DOM = {
   treeTop: document.getElementById("TreeTop"),
   tierBox: document.getElementById("tierButtonBox"),
   totalsBox: document.getElementById("totalsBox"),
-  totalsList: document.getElementById("totalsList"),
 };
 
 const CONSTANTS = {
   iconFolder: "/image",
   materials: null,
   factories: null,
+  factoryLevelModifiers: [1, 1.5, 2, 3, 4],
 };
 
 fetch("./materials.json")
@@ -24,15 +24,17 @@ fetch("./factories.json")
   .then((data) => (CONSTANTS.factories = data));
 
 class Calculation {
-  constructor(container, tierBox, { rate, material, factoryLevels }) {
-    this.DOM = { container, tierBox };
+  constructor({ rate, material, factoryModifiers }) {
+    this.DOM = {
+      container: DOM.treeTop,
+      tierBox: DOM.tierBox,
+      totalsBox: DOM.totalsBox,
+      totalsList: DOM.totalsBox.querySelector("#totalsList"),
+    };
 
     this.rate = rate;
     this.material = material;
-    this.factoryLevels = factoryLevels;
-
-    this.DOM.container.innerHTML = "";
-    this.DOM.tierBox.innerHTML = "";
+    this.factoryModifiers = factoryModifiers;
 
     this.tree = [];
   }
@@ -40,11 +42,20 @@ class Calculation {
   get extractorRatio() {}
 
   buildTree() {
-    new Branch(this.DOM.container, this.material, this.rate, this.tree);
+    this.DOM.container.innerHTML = "";
+
+    new Branch({
+      parent: this.DOM.container,
+      material: this.material,
+      rate: this.rate,
+      tree: this.tree,
+      factoryModifiers: this.factoryModifiers,
+    });
     this.DOM.container.style.display = "flex";
   }
 
   buildTierButtons() {
+    this.DOM.tierBox.innerHTML = "";
     this.DOM.tierBox.style.display = "flex";
 
     this.tree.forEach((_level, idx) => {
@@ -53,6 +64,8 @@ class Calculation {
   }
 
   buildTotalsBox() {
+    this.DOM.totalsList.innerHTML = "";
+
     const totals = this.tree.reduce((acc, level) => {
       level.forEach(({ material, rate }) => {
         acc[material.id] =
@@ -72,10 +85,10 @@ class Calculation {
       totalEntry.style.backgroundImage = `url("${CONSTANTS.iconFolder}/${CONSTANTS.materials[materialId].slug}.png")`;
       totalEntry.style.display = "flex";
 
-      DOM.totalsList.append(totalEntry);
+      this.DOM.totalsList.append(totalEntry);
     });
 
-    DOM.totalsBox.style.display = "flex";
+    this.DOM.totalsBox.style.display = "flex";
   }
 
   onTierButtonClick(showLevel) {
@@ -90,12 +103,17 @@ class Calculation {
 }
 
 class Branch {
-  constructor(parent, material, rate, tree, level = 0, branchType = "null") {
+  constructor(
+    { parent, material, rate, tree, factoryModifiers },
+    level = 0,
+    branchType = "null"
+  ) {
     this.material = CONSTANTS.materials[material];
     this.rate = parseFloat(rate);
     this.branchType = branchType;
-    this.leaf = new Leaf(material, this.rate);
     this.children = [];
+
+    this.leaf = new Leaf({ material, rate: this.rate, factoryModifiers });
 
     this.DOM = {
       parent: parent,
@@ -140,10 +158,13 @@ class Branch {
         }
 
         new Branch(
-          this.DOM.children,
-          material,
-          this.rate * rate,
-          tree,
+          {
+            parent: this.DOM.children,
+            material,
+            rate: this.rate * rate,
+            tree,
+            factoryModifiers,
+          },
           level + 1,
           branchType
         );
@@ -191,10 +212,13 @@ class Branch {
 }
 
 class Leaf {
-  constructor(material, rate) {
+  constructor({ material, rate, factoryModifiers }) {
     this.material = CONSTANTS.materials[material];
     this.rate = Math.round(rate * 100) / 100;
-    this.factoryRate = Math.ceil(rate / this.material.factory[1]);
+    this.factoryModifier = factoryModifiers[this.material.factory[0]];
+    this.factoryRate = Math.ceil(
+      rate / (this.material.factory[1] * this.factoryModifier)
+    );
 
     this.DOM = {
       container: document.querySelector("#leafTemplate").cloneNode(true),
@@ -246,23 +270,23 @@ class TierButton {
 }
 
 function getUserFactoryLevels() {
-  return [...document.querySelectorAll(".factoryLevelSelect")].map((el) => [
-    el.getAttribute("data-factory-id"),
-    el.value,
-  ]);
+  return [...document.querySelectorAll(".factoryLevelSelect")].map(
+    (el) => CONSTANTS.factoryLevelModifiers[parseInt(el.value)]
+  );
 }
 
 function calculate() {
-  console.log("go");
-  const calc = new Calculation(DOM.treeTop, DOM.tierBox, {
+  const calc = new Calculation({
     rate: DOM.inputs.rate.value,
     material: DOM.inputs.material.value,
-    factoryLevels: getUserFactoryLevels(),
+    factoryModifiers: getUserFactoryLevels(),
   });
 
   calc.buildTree();
   calc.buildTierButtons();
   calc.buildTotalsBox();
+
+  console.log(calc);
 }
 
 function factorycalc(reverse) {
