@@ -53,7 +53,6 @@ class Calculation {
   }
 
   onTierButtonClick(showLevel) {
-    console.log(showLevel);
     this.tree.forEach((level, idx) => {
       if (idx >= showLevel) {
         level.forEach((branch) => branch.hide());
@@ -61,23 +60,15 @@ class Calculation {
         level.forEach((branch) => branch.show());
       }
     });
-
-    // this.tree[level].forEach((branch, idx) => {
-    //   if (level > idx) {
-    //     branch.hide();
-    //   } else {
-    //     branch.show();
-    //   }
-    // });
   }
 }
 
 class Branch {
   constructor(parent, material, rate, tree, level = 0, branchType = "null") {
     this.material = CONSTANTS.materials[material];
-    this.rate = rate;
+    this.rate = parseFloat(rate);
     this.branchType = branchType;
-    this.leaf = null;
+    this.leaf = new Leaf(material, this.rate);
     this.children = [];
 
     this.DOM = {
@@ -94,8 +85,7 @@ class Branch {
 
     this.DOM.branchBox.classList.add(`branchType-${this.branchType}`);
 
-    this.DOM.leaf = new Leaf(material, rate).DOM.container;
-    this.DOM.leafWrapper.append(this.DOM.leaf);
+    this.DOM.leafWrapper.append(this.leaf.DOM.container);
 
     if (this.material.recipe[0][0] === null) {
       this.DOM.plusMinus.style.display = "none";
@@ -103,7 +93,7 @@ class Branch {
     } else {
       this.DOM.plusMinus.classList.add("icoMinus");
 
-      this.DOM.leaf.addEventListener("click", this.toggle.bind(this));
+      this.leaf.DOM.container.addEventListener("click", this.toggle.bind(this));
       this.DOM.plusMinus.addEventListener("click", this.toggle.bind(this));
 
       this.children = this.material.recipe.map(([material, rate], idx, all) => {
@@ -126,7 +116,7 @@ class Branch {
         new Branch(
           this.DOM.children,
           material,
-          rate,
+          this.rate * rate,
           tree,
           level + 1,
           branchType
@@ -177,7 +167,8 @@ class Branch {
 class Leaf {
   constructor(material, rate) {
     this.material = CONSTANTS.materials[material];
-    this.rate = rate;
+    this.rate = Math.round(rate * 100) / 100;
+    this.factoryRate = Math.ceil(rate / this.material.factory[1]);
 
     this.DOM = {
       container: document.querySelector("#leafTemplate").cloneNode(true),
@@ -197,11 +188,10 @@ class Leaf {
     this.DOM.icon.setAttribute("alt", this.material.name);
 
     this.DOM.name.innerText = this.material.name;
-    this.DOM.rate.innerText = Math.round(rate * 100) / 100;
+    this.DOM.rate.innerText = this.rate;
     this.DOM.factoryName.innerText =
       CONSTANTS.factories[this.material.factory[0]].name;
-    this.DOM.factoryNum.innerText =
-      Math.ceil((rate / this.material.factory[1]) * 100) / 100;
+    this.DOM.factoryNum.innerText = this.factoryRate;
 
     this.DOM.container.style.display = "flex";
   }
