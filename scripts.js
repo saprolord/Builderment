@@ -150,13 +150,15 @@ class ReverseCalculation extends Calculation {
       Math.floor(limit * 100) / 100
     );
 
-    DOM.limitBox
-      .querySelector("p")
-      .innerText(
-        `You are limited by the amount of ${
-          CONSTANTS.materials[CONSTANTS.baseMaterials[limitingExtractor]].name
-        } extractors`
-      );
+    const limitText = document.createElement("p");
+    limitText.innerText = `You are limited by the amount of ${
+      CONSTANTS.materials[CONSTANTS.baseMaterials[limitingExtractor]].name
+    } extractors`;
+
+    DOM.limitBox.innerHTML = "";
+    DOM.limitBox.style.display = "flex";
+
+    DOM.limitBox.append(limitText);
   }
 }
 

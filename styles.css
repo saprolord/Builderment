@@ -228,7 +228,7 @@ button:hover {
   margin: 10px 5px;
 }
 
-#totalsBox {
+.totalsBox {
   display: none;
   flex-direction: row;
   background: #f2f2f2;
