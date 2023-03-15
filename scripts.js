@@ -7,6 +7,7 @@ const DOM = {
   treeTop: document.getElementById("TreeTop"),
   tierBox: document.getElementById("tierButtonBox"),
   totalsBox: document.getElementById("totalsBox"),
+  limitBox: document.getElementById("limit_resource"),
 };
 
 const CONSTANTS = {
@@ -148,9 +149,15 @@ class ReverseCalculation extends Calculation {
       this.material,
       Math.floor(limit * 100) / 100
     );
-  }
 
-  addExtractorRatio(materialId) {}
+    DOM.limitBox
+      .querySelector("p")
+      .innerText(
+        `You are limited by the amount of ${
+          CONSTANTS.materials[CONSTANTS.baseMaterials[limitingExtractor]].name
+        } extractors`
+      );
+  }
 }
 
 class Branch {
