@@ -12,6 +12,7 @@ const DOM = {
 const CONSTANTS = {
   iconFolder: "/image",
   materials: null,
+  baseMaterials: [0, 1, 2, 3, 4, 5],
   factories: null,
   factoryLevelModifiers: [1, 1.5, 2, 3, 4],
 };
@@ -32,25 +33,48 @@ class Calculation {
       totalsList: DOM.totalsBox.querySelector("#totalsList"),
     };
 
-    this.rate = rate;
-    this.material = material;
+    this.rate = parseInt(rate);
+    this.material = parseInt(material);
     this.factoryModifiers = factoryModifiers;
 
-    this.tree = [];
+    this.totals = {};
+    this.tree = this.calculateTree(this.material, this.rate);
+
+    this.branches = [];
+
+    console.log("full tree:", this.tree);
   }
 
-  get extractorRatio() {}
+  calculateTree(materialId, rate) {
+    const branch = {
+      ...CONSTANTS.materials[materialId],
+      rate,
+    };
+
+    branch.factoryCount = Math.ceil(
+      rate / (this.factoryModifiers[branch.factory[0]] * branch.factory[1])
+    );
+
+    this.totals[materialId] =
+      this.totals[materialId] === undefined
+        ? rate
+        : this.totals[materialId] + rate;
+
+    if (branch.recipe[0][0] === null) {
+      return branch;
+    }
+
+    branch.children = branch.recipe.map(([material, factoryCount]) =>
+      this.calculateTree(material, branch.rate * factoryCount)
+    );
+
+    return branch;
+  }
 
   buildTree() {
     this.DOM.container.innerHTML = "";
 
-    new Branch({
-      parent: this.DOM.container,
-      material: this.material,
-      rate: this.rate,
-      tree: this.tree,
-      factoryModifiers: this.factoryModifiers,
-    });
+    new Branch(this.tree, this.branches, this.DOM.container);
     this.DOM.container.style.display = "flex";
   }
 
@@ -58,63 +82,85 @@ class Calculation {
     this.DOM.tierBox.innerHTML = "";
     this.DOM.tierBox.style.display = "flex";
 
-    this.tree.forEach((_level, idx) => {
-      new TierButton(this.DOM.tierBox, idx, this.onTierButtonClick.bind(this));
-    });
+    const maxLevel = Math.max(...this.branches.map(({ level }) => level));
+
+    console.log("maxlevel: ", maxLevel);
+
+    for (let i = 0; i < maxLevel; i++) {
+      new TierButton(this.DOM.tierBox, i, this.onTierButtonClick.bind(this));
+    }
   }
 
   buildTotalsBox() {
     this.DOM.totalsList.innerHTML = "";
 
-    const totals = this.tree.reduce((acc, level) => {
-      level.forEach(({ material, rate }) => {
-        acc[material.id] =
-          acc[material.id] === undefined ? rate : acc[material.id] + rate;
-      });
-
-      return acc;
-    }, {});
-
-    Object.keys(totals).forEach((materialId) => {
+    for (let materialId in this.totals) {
       const totalEntry = document
         .querySelector("#totalItemTemplate")
         .cloneNode(true);
       totalEntry.removeAttribute("id");
 
-      totalEntry.innerText = totals[materialId];
+      totalEntry.innerText = this.totals[materialId];
       totalEntry.style.backgroundImage = `url("${CONSTANTS.iconFolder}/${CONSTANTS.materials[materialId].slug}.png")`;
       totalEntry.style.display = "flex";
 
       this.DOM.totalsList.append(totalEntry);
-    });
+    }
 
     this.DOM.totalsBox.style.display = "flex";
   }
 
   onTierButtonClick(showLevel) {
-    this.tree.forEach((level, idx) => {
-      if (idx >= showLevel) {
-        level.forEach((branch) => branch.hide());
+    this.branches.forEach((branch) => {
+      if (branch.level > showLevel) {
+        branch.hide();
       } else {
-        level.forEach((branch) => branch.show());
+        branch.show();
       }
     });
   }
 }
 
+class ReverseCalculation extends Calculation {
+  constructor(calculationValues, userExtractors) {
+    super(calculationValues);
+    this.userExtractors = userExtractors;
+
+    console.log(this.userExtractors, this.totals);
+
+    const ratios = this.userExtractors.map((extractors, idx) => {
+      if (this.totals[idx] === undefined) {
+        return Infinity;
+      }
+
+      const [_factoryId, factoryRate] =
+        CONSTANTS.materials[CONSTANTS.baseMaterials[0]].factory;
+      return (
+        (extractors * this.factoryModifiers[0] * factoryRate) / this.totals[idx]
+      );
+    });
+
+    const limit = Math.min(...ratios);
+    const limitingExtractor = ratios.indexOf(limit);
+
+    this.totals = {};
+    this.tree = this.calculateTree(
+      this.material,
+      Math.floor(limit * 100) / 100
+    );
+  }
+
+  addExtractorRatio(materialId) {}
+}
+
 class Branch {
   constructor(
-    { parent, material, rate, tree, factoryModifiers },
+    { children, factory, factoryCount, name, rate, slug },
+    branches,
+    parent,
     level = 0,
     branchType = "null"
   ) {
-    this.material = CONSTANTS.materials[material];
-    this.rate = parseFloat(rate);
-    this.branchType = branchType;
-    this.children = [];
-
-    this.leaf = new Leaf({ material, rate: this.rate, factoryModifiers });
-
     this.DOM = {
       parent: parent,
       container: document.querySelector("#branchTemplate").cloneNode(true),
@@ -127,11 +173,14 @@ class Branch {
 
     this.DOM.container.removeAttribute("id");
 
-    this.DOM.branchBox.classList.add(`branchType-${this.branchType}`);
+    this.DOM.branchBox.classList.add(`branchType-${branchType}`);
 
+    this.leaf = new Leaf({ name, rate, slug, factory, factoryCount });
     this.DOM.leafWrapper.append(this.leaf.DOM.container);
 
-    if (this.material.recipe[0][0] === null) {
+    this.level = level;
+
+    if (!children) {
       this.DOM.plusMinus.style.display = "none";
       this.DOM.children.style.display = "none";
     } else {
@@ -140,7 +189,7 @@ class Branch {
       this.leaf.DOM.container.addEventListener("click", this.toggle.bind(this));
       this.DOM.plusMinus.addEventListener("click", this.toggle.bind(this));
 
-      this.children = this.material.recipe.map(([material, rate], idx, all) => {
+      this.children = children.map((details, idx, all) => {
         let branchType;
 
         if (all.length === 1) {
@@ -157,28 +206,13 @@ class Branch {
           branchType = "middle";
         }
 
-        new Branch(
-          {
-            parent: this.DOM.children,
-            material,
-            rate: this.rate * rate,
-            tree,
-            factoryModifiers,
-          },
-          level + 1,
-          branchType
-        );
+        new Branch(details, branches, this.DOM.children, level + 1, branchType);
       });
     }
 
+    branches.push(this);
     this.DOM.container.style.display = "flex";
     this.DOM.parent.append(this.DOM.container);
-
-    if (tree[level] === undefined) {
-      tree[level] = [];
-    }
-
-    tree[level].push(this);
   }
 
   get expanded() {
@@ -212,14 +246,7 @@ class Branch {
 }
 
 class Leaf {
-  constructor({ material, rate, factoryModifiers }) {
-    this.material = CONSTANTS.materials[material];
-    this.rate = Math.round(rate * 100) / 100;
-    this.factoryModifier = factoryModifiers[this.material.factory[0]];
-    this.factoryRate = Math.ceil(
-      rate / (this.material.factory[1] * this.factoryModifier)
-    );
-
+  constructor({ name, slug, rate, factory, factoryCount }) {
     this.DOM = {
       container: document.querySelector("#leafTemplate").cloneNode(true),
     };
@@ -231,17 +258,13 @@ class Leaf {
     this.DOM.factoryName = this.DOM.container.querySelector(".factoryName");
     this.DOM.factoryNum = this.DOM.container.querySelector(".factoryNum");
 
-    this.DOM.icon.setAttribute(
-      "src",
-      `${CONSTANTS.iconFolder}/${this.material.slug}.png`
-    );
-    this.DOM.icon.setAttribute("alt", this.material.name);
+    this.DOM.icon.setAttribute("src", `${CONSTANTS.iconFolder}/${slug}.png`);
+    this.DOM.icon.setAttribute("alt", name);
 
-    this.DOM.name.innerText = this.material.name;
-    this.DOM.rate.innerText = this.rate;
-    this.DOM.factoryName.innerText =
-      CONSTANTS.factories[this.material.factory[0]].name;
-    this.DOM.factoryNum.innerText = this.factoryRate;
+    this.DOM.name.innerText = name;
+    this.DOM.rate.innerText = rate;
+    this.DOM.factoryName.innerText = CONSTANTS.factories[factory[0]].name;
+    this.DOM.factoryNum.innerText = factoryCount;
 
     this.DOM.container.style.display = "flex";
   }
@@ -258,7 +281,7 @@ class TierButton {
     };
 
     this.DOM.container.removeAttribute("id");
-    this.DOM.container.innerText = level;
+    this.DOM.container.innerText = level + 1;
     this.DOM.container.style.display = "flex";
 
     this.DOM.container.addEventListener("click", () =>
@@ -275,12 +298,35 @@ function getUserFactoryLevels() {
   );
 }
 
+function getUserExtractors() {
+  return [...document.querySelectorAll(".extractorInput")].map((el) =>
+    parseInt(el.value)
+  );
+}
+
 function calculate() {
   const calc = new Calculation({
     rate: DOM.inputs.rate.value,
     material: DOM.inputs.material.value,
     factoryModifiers: getUserFactoryLevels(),
   });
+
+  calc.buildTree();
+  calc.buildTierButtons();
+  calc.buildTotalsBox();
+
+  console.log(calc);
+}
+
+function reverseCalculate() {
+  const calc = new ReverseCalculation(
+    {
+      rate: 1,
+      material: DOM.inputs.material.value,
+      factoryModifiers: getUserFactoryLevels(),
+    },
+    getUserExtractors()
+  );
 
   calc.buildTree();
   calc.buildTierButtons();
