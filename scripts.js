@@ -56,7 +56,7 @@ function factorycalc(reverse) {
   const duplicator = new MatDef("Matter Duplicator", [6, 2 / 3], [atomic, quantum, energy_cube, particle], [4, 2, 5, 100], 47);
   const earth_token = new MatDef("Earth Token", [7, 60 / 42], [duplicator], [1], 48);
   const uranium = new MatDef("Uranium Ore", [8, 10], 0, [1], 49);
-  const enriched_ur = new MatDef("Enriched Uranium",[5,1],[uranium],[30],50)
+  const enriched_ur = new MatDef("Enriched Uranium",[5,1],[uranium],[10],50)
   const empty_fuel = new MatDef("Empty Fuel Cell",[3,4],[carbide,glass],[3,5],51)
   const nuclear_fuel = new MatDef("Nuclear Fuel Cell",[4,2],[empty_fuel,steel_rod,enriched_ur],[1,1,1],52)
 
